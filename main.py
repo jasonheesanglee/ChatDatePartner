@@ -7,5 +7,3 @@ chatbot = ChatBot(name='오해원', sex='female', age='26', domain='실용음악
 
 if __name__ == '__main__':
     chatbot.chat()
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
