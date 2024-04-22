@@ -1,9 +1,13 @@
+import os
 import json
+
 class Logger:
     def __init__(self, user_id, session_id, log_file_path=None):
         self.user_id = user_id
         self.session_id = session_id
         if log_file_path == None:
+            if not os.path.exists('./logs'):
+                os.mkdir('./logs/')
             self.log_file_path = f'./logs/{self.user_id}.json'
             self.logs = {}
         else:
