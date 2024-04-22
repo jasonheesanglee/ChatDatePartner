@@ -4,6 +4,6 @@
 </p><br>
 
 `ChatGirlFriend` is your own virtual girlfriend.<br>
-Currently, the IDs such as user_id, session_id are manually generated.<br>
-The IDs will be replaced by the actual user_ids and session_ids, etc.<br><br>
+Currently, the IDs such as `user_id`, `session_id` are manually generated.<br>
+The IDs will be replaced by the actual `user_ids` and `session_ids`, etc.<br><br>
 Soon, you will be able to meet them via StreamLit.
