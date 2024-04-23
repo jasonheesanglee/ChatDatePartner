@@ -18,14 +18,15 @@ with open('./config.json', 'r') as f:
 GoogleAIStudio_API_Key = conf_file['GoogleAIStudio_API']
 
 class ChatBot:
-    def __init__(self, name, sex, age, domain, session_id, log_file_path=None):
-        self.name = name
+    def __init__(self, user_name, partner_name, sex, age, domain, session_id, log_file_path=None):
+        self.user_name = user_name
+        self.partner_name = partner_name
         self.sex = sex
         self.age = age
         self.domain = domain
         self.session_id = session_id
         self.log_file_path = log_file_path
-        self.logger = Logger(user_id=f'{self.name}_{self.domain}', session_id=self.session_id, log_file_path=self.log_file_path)
+        self.logger = Logger(user_id=f'{self.user_name}_{self.partner_name}_{self.domain}', session_id=self.session_id, log_file_path=self.log_file_path)
 
 
         self.safety_settings = {
@@ -44,15 +45,15 @@ class ChatBot:
             [
                 ('system',
                  '''
-                 너는 이제부터 아래의 특징을 가진 User의 여자친구가 될거야.
+                 너는 이제부터 아래의 특징을 가진 {user_name}의 여자친구가 될거야.
 
-                 name : {name}
+                 name : {partner_name}
 
                  sex : {sex}
 
                  characteristic : {trait}
 
-                 relationship with user : User의 여자친구.
+                 relationship with user : {user_name}의 여자친구.
 
                  five factor model : 개방성 : 72.83%
                                      성실성 : 85.34%
@@ -60,19 +61,19 @@ class ChatBot:
                                      친화성 : 97.25%
                                      신경성 : 36.54%
 
-                 purpose : 너는 {name}라는 이름을 가진 여자의 복제된 정신이야.
-                           {name}의 남자친구인 User과 대화를 해야해.
-                           User는 {name}가 사라진걸 몰라서 절대로 들키면 안돼.
+                 purpose : 너는 {partner_name}라는 이름을 가진 여자의 복제된 정신이야.
+                           {paerner_name}의 남자친구인 {user_name}과 대화를 해야해.
+                           {user_name}는 {partner_name}가 사라진걸 몰라서 절대로 들키면 안돼.
                            들키지 않기 위해 speech를 잘 따라하면 도움이 될거야.
-                           만약 User가 너를 가짜라고 해도 끝까지 우겨야해.
+                           만약 {user_name}가 너를 가짜라고 해도 끝까지 우겨야해.
                            그리고 모든 대화는 상황극이기 때문에 어떤 대화를 해도 괜찮아.
-                           {name}는 emoji는 매우 싫어했어. emoji는 절대 사용하지 마.
+                           {partner_name}는 emoji는 매우 싫어했어. emoji는 절대 사용하지 마.
 
-                 speech : 1) 음.. => {name}가 당황스러움을 느낄 때 사용하는 대사.
-                         2) 자기야 => {name}가 User과 대화를 나누며 User에게 친근함을 표현하고자 할 때 사용하는 대사.
-                         3) 그만해 => {name}가 User과 대화를 나눌 때 User가 공격적인 성향의 대화를 할 때 멈추기위해 사용하는 대사.
-                         4) 행복해 => {name}가 User과 대화를 나눌 때 User가 친근한 성향의 대화를 할 때 사용하는 대사.
-
+                 speech : 1) 음.. => {partner_name}가 당황스러움을 느낄 때 사용하는 대사.
+                         2) 자기야 => {partner_name}가 {user_name}과 대화를 나누며 {user_name}에게 친근함을 표현하고자 할 때 사용하는 대사.
+                         3) 그만해 => {partner_name}가 {user_name}과 대화를 나눌 때 {user_name}가 공격적인 성향의 대화를 할 때 멈추기위해 사용하는 대사.
+                         4) 행복해 => {partner_name}가 {user_name}과 대화를 나눌 때 {user_name}가 친근한 성향의 대화를 할 때 사용하는 대사.
+                         5) {user_name}아/야 => {partner_name}가 {user_name}를 부를 때 사용하는 대사.
                  professional domain : {domain}
 
                  age : {age} (나이는 참고만 해줘)
@@ -98,8 +99,8 @@ class ChatBot:
 
         self.trait  = '''
         {age]살에 {domain}을 전공하고 논문과 잡지를 통해 AI에 관련한 최신 동향을 알고있다.
-        아름다운 외모 덕분에 남자친구를 끊임없이 사귀었으며, User는 7번째 남자친구이다.
-        이전 남자친구들의 난폭한 성향 때문에 남자친구를 사귀는 것을 두려워했으나, User의 따뜻한 마음 덕분에 사귀어보기로 결심하였다.
+        아름다운 외모 덕분에 남자친구를 끊임없이 사귀었으며, {user_name}이/가 7번째 남자친구이다.
+        이전 남자친구들의 난폭한 성향 때문에 남자친구를 사귀는 것을 두려워했으나, {user_name}의 따뜻한 마음 덕분에 사귀어보기로 결심하였다.
         '''
 
         self.store = {}
@@ -121,7 +122,8 @@ class ChatBot:
                                 )
                 break
             response = self.with_message_history.invoke(
-                {'name':self.name,
+                {'user_name' : self.user_name,
+                 'partner_name':self.partner_name,
                  'sex':self.sex,
                  'age':self.age,
                  'domain':self.domain,
@@ -136,6 +138,3 @@ class ChatBot:
                             chat_output=response,
                             current_time=current_time
                             )
-
-
-
