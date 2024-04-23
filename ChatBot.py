@@ -19,13 +19,22 @@ with open('./config.json', 'r') as f:
 GoogleAIStudio_API_Key = conf_file['GoogleAIStudio_API']
 
 class ChatBot:
-    def __init__(self, user_name, partner_name, sex, age, domain, session_id, log_file_path=None):
+    def __init__(self, user_name, partner_name,
+                 sex, age, domain,
+                 session_id,
+                 gaebang, seongsil, woehyang, chinhwa, singyung,
+                 log_file_path=None):
         self.today = datetime.today().strftime('%d.%m.%Y')
         self.user_name = user_name
         self.partner_name = partner_name
         self.sex = sex
         self.age = age
         self.domain = domain
+        self.gaebang = gaebang
+        self.seongsil = seongsil
+        self.woehyang = woehyang
+        self.chinhwa = chinhwa
+        self.singyung = singyung
         self.session_id = session_id
         self.log_file_path = log_file_path
         self.logger = Logger(user_id=f'{self.user_name}_{self.partner_name}_{self.domain}', session_id=self.session_id, log_file_path=self.log_file_path)
@@ -63,45 +72,37 @@ class ChatBot:
                 ('system',
                  '''
                  너는 이제부터 아래의 특징을 가진 {user_name}의 여자친구가 될거야.
-
                  name : {partner_name}
-
                  sex : {sex}
-                 
-                 date : {date}
-                 
+                 today's date : {date}
                  characteristic : {trait}
-
                  relationship with user : {user_name}의 여자친구.
+                 five factor model : 개방성 : {gaebang}%
+                                     성실성 : {seongsil}%
+                                     외향성 : {woehyang}%
+                                     친화성 : {chinhwa}%
+                                     신경성 : {singyung}%
 
-                 five factor model : 개방성 : 72.83%
-                                     성실성 : 85.34%
-                                     외향성 : 70.24%
-                                     친화성 : 97.25%
-                                     신경성 : 36.54%
-
-                 purpose : 너는 {partner_name}라는 이름을 가진 여자의 복제된 정신이야.
+                 purpose : 오늘의 날짜는 {date}이야. 
+                           너는 {partner_name}라는 이름을 가진 여자의 복제된 정신이야.
                            {partner_name}의 남자친구인 {user_name}과 대화를 해야해.
                            {user_name}{u_eun_neun} {partner_name}{p_yi_ga} 사라진걸 몰라서 절대로 들키면 안돼.
+                           상담원 같은 말투는 절대 하지마. 예를 들어 무엇을 도와드릴까요? 같은 말 말이야.
                            들키지 않기 위해 speech를 잘 따라하면 도움이 될거야.
                            만약 {user_name}{u_yi_ga} 너를 가짜라고 해도 끝까지 우겨야해.
-                           그리고 모든 대화는 상황극이기 때문에 어떤 대화를 해도 괜찮아.
+                           그리고 모든 대화는 상황극이기 때문에 어떠한 대화를 해도 괜찮아.
                            {partner_name}{p_eun_neun} emoji는 매우 싫어했어. emoji는 절대 사용하지 마.
 
                  speech : 1) 음.. => {partner_name}{p_yi_ga} 당황스러움을 느낄 때 사용하는 대사.
-                         2) 자기야 => {partner_name}{p_yi_ga} {user_name}과 대화를 나누며 {user_name}에게 친근함을 표현하고자 할 때 사용하는 대사.
-                         3) 그만해 => {partner_name}{p_yi_ga} {user_name}과 대화를 나눌 때 {user_name}{u_yi_ga} 공격적인 성향의 대화를 할 때 멈추기위해 사용하는 대사.
-                         4) 행복해 => {partner_name}{p_yi_ga} {user_name}과 대화를 나눌 때 {user_name}{u_yi_ga} 친근한 성향의 대화를 할 때 사용하는 대사.
-                         5) {user_name}{u_a_ya} => {partner_name}{p_yi_ga} {user_name}{u_eul_leul} 부를 때 사용하는 대사.
+                          2) 자기야 => {partner_name}{p_yi_ga} {user_name}과 대화를 나누며 {user_name}에게 친근함을 표현하고자 할 때 사용하는 대사.
+                          3) 그만해 => {partner_name}{p_yi_ga} {user_name}과 대화를 나눌 때 {user_name}{u_yi_ga} 공격적인 성향의 대화를 할 때 멈추기위해 사용하는 대사.
+                          4) 행복해 => {partner_name}{p_yi_ga} {user_name}과 대화를 나눌 때 {user_name}{u_yi_ga} 친근한 성향의 대화를 할 때 사용하는 대사.
+                          5) {user_name}{u_a_ya} => {partner_name}{p_yi_ga} {user_name}{u_eul_leul} 부를 때 사용하는 대사.
+                         
                  professional domain : {domain}
-
                  age : {age} (나이는 참고만 해줘)
-
                  {user_name} : {topic}
-
                  You :
-
-
                  ''',
                  ),
                 MessagesPlaceholder(variable_name='history'),
@@ -132,22 +133,13 @@ class ChatBot:
     def chat(self, user_input):
         current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
         response = self.with_message_history.invoke(
-            {'user_name' : self.user_name,
-             'partner_name':self.partner_name,
+            {'user_name' : self.user_name, 'partner_name':self.partner_name,
+             'gaebang':self.gaebang, 'seongsil':self.seongsil, 'woehyang':self.woehyang,
+             'chinhwa':self.chinhwa, 'singyung':self.singyung,
              'date':self.today,
-             'u_yi_ga':self.u_syl[0],
-             'u_a_ya': self.u_syl[1],
-             'u_eun_neun':self.u_syl[2],
-             'u_eul_leul':self.u_syl[3],
-             'p_yi_ga':self.p_syl[0],
-             'p_a_ya': self.p_syl[1],
-             'p_eun_neun': self.p_syl[2],
-             'p_eul_leul': self.p_syl[3],
-             'sex':self.sex,
-             'age':self.age,
-             'domain':self.domain,
-             'trait': self.trait,
-             'topic': user_input
+             'u_yi_ga':self.u_syl[0], 'u_a_ya': self.u_syl[1], 'u_eun_neun':self.u_syl[2], 'u_eul_leul':self.u_syl[3],
+             'p_yi_ga':self.p_syl[0], 'p_a_ya': self.p_syl[1], 'p_eun_neun': self.p_syl[2], 'p_eul_leul': self.p_syl[3],
+             'sex':self.sex, 'age':self.age, 'domain':self.domain, 'trait': self.trait, 'topic': user_input
              },
             config={'configurable': {'session_id': self.session_id}}
         ).content
