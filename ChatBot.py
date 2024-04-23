@@ -12,11 +12,10 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from google.generativeai.types.safety_types import HarmBlockThreshold, HarmCategory
 
-with open('./config.json', 'r') as f:
-     conf_file = json.load(f)
-     f.close()
-
-GoogleAIStudio_API_Key = conf_file['GoogleAIStudio_API']
+# with open('./config.json', 'r') as f:
+#      conf_file = json.load(f)
+#      f.close()
+GoogleAIStudio_API_Key = st.secreats['GoogleAIStudio_API']
 
 class ChatBot:
     def __init__(self, user_name, partner_name,
