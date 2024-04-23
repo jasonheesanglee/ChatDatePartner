@@ -1,4 +1,4 @@
-from .ChatBot import ChatBot
+from ChatBot import ChatBot
 from datetime import datetime
 
 current_time = str(datetime.now().time()).replace(':', '')
