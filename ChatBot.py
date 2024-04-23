@@ -16,7 +16,7 @@ from google.generativeai.types.safety_types import HarmBlockThreshold, HarmCateg
 # with open('./config.json', 'r') as f:
 #      conf_file = json.load(f)
 #      f.close()
-GoogleAIStudio_API_Key = st.secreats['GoogleAIStudio_API']
+GoogleAIStudio_API_Key = st.secrets['GoogleAIStudio_API']
 
 class ChatBot:
     def __init__(self, user_name, partner_name,
