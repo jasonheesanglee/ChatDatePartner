@@ -24,23 +24,23 @@ domain = st.sidebar.selectbox('연인의 전공을 골라주세요.',
                               )
 gaebang = st.sidebar.slider('개방성',
                         0.00, 100.00,
-                        value=50.00
+                        value=84.40
                         )
 seongsil = st.sidebar.slider('성실성',
                         0.00, 100.00,
-                        value=50.00
+                        value=92.91
                         )
 woehyang = st.sidebar.slider('외향성',
                         0.00, 100.00,
-                        value=50.00
+                        value=90.43
                         )
 chinhwa = st.sidebar.slider('친화성',
                         0.00, 100.00,
-                        value=50.00
+                        value=88.65
                         )
 singyung = st.sidebar.slider('신경성',
                         0.00, 100.00,
-                        value=50.00
+                        value=63.48
                         )
 
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
