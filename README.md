@@ -6,7 +6,7 @@
 `Chat Date Partner` is your own virtual girlfriend.<br>
 Currently, the IDs such as `user_id`, `session_id` are manually generated.<br>
 The IDs will be replaced by the actual `user_ids` and `session_ids`, etc.<br><br>
-Soon, you will be able to meet them via Streamlit.
+Please [click here](http://10.186.26.45:8501) to check out the prototype!
 
 Here is the example page of Chat Date Parnter on Streamlit<br>
 <p align='center'>
