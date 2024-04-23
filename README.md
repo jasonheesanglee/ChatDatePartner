@@ -10,5 +10,5 @@ Soon, you will be able to meet them via Streamlit.
 
 Here is the example page of Chat Date Parnter on Streamlit<br>
 <p align='center'>
-    <img width=500 src='https://github.com/jasonheesanglee/ChatGirlFriend/assets/123557477/01874cfc-8cd8-4e0f-968e-5c804f9f4136'>
+    <img width=500 src='https://github.com/jasonheesanglee/ChatGirlFriend/assets/123557477/4ab79ca6-d9ca-45b6-9418-e0d517350f28'>
 </p>
