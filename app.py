@@ -3,6 +3,9 @@ from PIL import Image
 from ChatBot import ChatBot
 from datetime import datetime
 
+def sidebar_slider(factor, value):
+    return st.sidebar.slider(factor,0,100,value=value)
+
 current_time = str(datetime.now().time()).replace(':', '')
 st.title('Chat Date Partner')
 st.header('개인화된 연인과 대화를 나누어보세요!')
@@ -22,26 +25,11 @@ age = st.sidebar.slider('연인의 나이를 설정해주세요.',
 domain = st.sidebar.selectbox('연인의 전공을 골라주세요.',
                               ['컴퓨터공학', '기계공학', '경제학', '수학', '호텔경영학']
                               )
-gaebang = st.sidebar.slider('개방성',
-                        0.00, 100.00,
-                        value=84.40
-                        )
-seongsil = st.sidebar.slider('성실성',
-                        0.00, 100.00,
-                        value=92.91
-                        )
-woehyang = st.sidebar.slider('외향성',
-                        0.00, 100.00,
-                        value=90.43
-                        )
-chinhwa = st.sidebar.slider('친화성',
-                        0.00, 100.00,
-                        value=88.65
-                        )
-singyung = st.sidebar.slider('신경성',
-                        0.00, 100.00,
-                        value=63.48
-                        )
+gaebang = sidebar_slider('개방성', value=84.40)
+seongsil = sidebar_slider('성실성', value=92.91)
+woehyang = sidebar_slider('외향성', value=90.43)
+chinhwa = sidebar_slider('친화성', value=88.65)
+singyung = sidebar_slider('신경성', value=63.48)
 
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
