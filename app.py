@@ -4,7 +4,7 @@ from ChatBot import ChatBot
 from datetime import datetime
 
 def sidebar_slider(factor, value):
-    return st.sidebar.slider(factor,0,100,value=value)
+    return st.sidebar.slider(factor, 0.00, 100.00,value=value)
 
 current_time = str(datetime.now().time()).replace(':', '')
 st.title('Chat Date Partner')
