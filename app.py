@@ -11,12 +11,16 @@ st.title('Chat Date Partner')
 st.header('개인화된 연인과 대화를 나누어보세요!')
 
 chat_date_img = Image.open('chat_gf.png')
+width, height = chat_date_img.size
+width, height = int(width/2), int(height/2)
+chat_date_img = chat_date_img.resize((width, height))
+
 st.image(chat_date_img)
 st.sidebar.title('내 연인 설정하기')
 user_name = st.sidebar.text_input('이름/닉네임을 입력해주세요')
 partner_name = st.sidebar.text_input('연인의 이름/닉네임을 입력해주세요')
 gender = st.sidebar.selectbox('연인의 성별을 골라주세요.',
-                              ['남자', '여자']
+                              ['여자', '남자']
                               )
 age = st.sidebar.slider('연인의 나이를 설정해주세요.',
                         21, 100,
