@@ -40,8 +40,8 @@ singyung = sidebar_slider('신경성', value=63.48)
 
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
-if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = []
+# if 'chat_history' not in st.session_state:
+st.session_state.chat_history = []
 def send_message():
     user_input = st.session_state.get('user_input', '').strip()
     if user_input.lower() in ['exit', 'quit']:
