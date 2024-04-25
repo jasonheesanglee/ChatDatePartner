@@ -41,7 +41,7 @@ singyung = sidebar_slider('신경성', value=63.48)
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
 def send_message():
-    user_input = st.session_state.user_input
+    user_input = st.session_state.get('user_input', '').strip()
     if user_input.lower() in ['exit', 'quit']:
         st.session_state.chat_history.append({'message' : 'Ending Chat Session.',
                                               'is_user' : False
@@ -53,9 +53,10 @@ def send_message():
         response = st.session_state['chatbot'].chat(user_input)
         st.session_state.chat_history.append({'meesage' : user_input, 'is_user': True})
         st.session_state.chat_history.append({'meesage': response, 'is_user': False})
-
-def clear_input():
     st.session_state.user_input = ''
+
+# def clear_input():
+#     st.session_state.user_input = ''
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
