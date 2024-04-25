@@ -40,25 +40,20 @@ singyung = sidebar_slider('신경성', value=63.48)
 
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
-# if 'chat_history' not in st.session_state:
-st.session_state.chat_history = []
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
 def send_message():
-    user_input = st.session_state.get('user_input', '').strip()
+    user_input = st.session_state.user_input.strip()
     if user_input.lower() in ['exit', 'quit']:
         st.session_state.chat_history.append({'message' : 'Ending Chat Session.',
                                               'is_user' : False
                                               })
         del st.session_state['chatbot']
-        del st.session_state.chat_history
-
     else:
         response = st.session_state['chatbot'].chat(user_input)
         st.session_state.chat_history.append({'meesage' : user_input, 'is_user': True})
         st.session_state.chat_history.append({'meesage': response, 'is_user': False})
     st.session_state.user_input = ''
-
-# def clear_input():
-#     st.session_state.user_input = ''
 
 if user_name and partner_name and apply_button:
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
@@ -71,8 +66,9 @@ if user_name and partner_name and apply_button:
     st.session_state['chatbot'] = chatbot
 
 if 'chatbot' in st.session_state:
-    user_input = st.text_input('메시지를 입력해주세요.:', key='user_input', on_change=send_message)
-    send_button = st.button('Send', on_click=send_message)
+    st.text_input('메시지를 입력해주세요.:', key='user_input', on_change=None)
+    if st.button('Send'):
+        send_message()
     for message in st.session_state.chat_history:
-        st.chat_message(**message)
+        st.chat_message(message['message'], is_user=message['is_user'])
 
