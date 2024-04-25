@@ -44,8 +44,8 @@ def main():
 
     apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
-    if 'chat_history' not in st.session_state:
-        st.session_state.chat_history = []
+    # if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
 
     if user_name and partner_name and apply_button:
         current_time = datetime.now().strftime('%Y%m%d%H%M%S')
