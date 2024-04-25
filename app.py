@@ -83,16 +83,17 @@ from datetime import datetime
 def sidebar_slider(factor, value):
     return st.sidebar.slider(factor, 0.00, 100.00, value=value)
 
-def send_message(input_text):
+def send_message(input_text, user_name, partner_name):
     if input_text.lower() in ['exit', 'quit']:
-        st.session_state.chat_history.append({'message': 'Ending Chat Session.', 'is_user': False})
+        st.session_state.chat_history.append('Ending Chat Session.')
         if 'chatbot' in st.session_state:
             del st.session_state['chatbot']
     else:
         if 'chatbot' in st.session_state:
             response = st.session_state['chatbot'].chat(input_text)
-            st.session_state.chat_history.append({'message': input_text, 'is_user': True})
-            st.session_state.chat_history.append({'message': response, 'is_user': False})
+            st.session_state.chat_history.append(f"{user_name}: {input_text}")
+            st.session_state.chat_history.append(f"{partner_name}: {response}")
+
 
 def main():
     st.title('Chat Date Partner')
@@ -140,7 +141,7 @@ def main():
         st.chat_message(message['message'], is_user=message['is_user'])
 
     if submit_button and user_input:
-        send_message(user_input)
+        send_message(user_input, user_name, partner_name)
 
 if __name__ == '__main__':
     main()
