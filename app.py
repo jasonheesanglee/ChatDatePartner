@@ -15,7 +15,10 @@ width, height = chat_date_img.size
 width, height = int(width/3), int(height/3)
 chat_date_img = chat_date_img.resize((width, height))
 
-st.image(chat_date_img)
+left_co, cent_co,last_co = st.columns(3)
+with cent_co:
+    st.image(chat_date_img, )
+
 st.sidebar.title('내 연인 설정하기')
 user_name = st.sidebar.text_input('이름/닉네임을 입력해주세요')
 partner_name = st.sidebar.text_input('연인의 이름/닉네임을 입력해주세요')
