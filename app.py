@@ -85,14 +85,23 @@ def sidebar_slider(factor, value):
 
 def send_message(input_text, user_name, partner_name):
     if input_text.lower() in ['exit', 'quit']:
-        st.session_state.chat_history.append('Ending Chat Session.')
+        st.session_state.chat_history.append({
+            'name': user_name,
+            'text': 'Ending Chat Session.'
+        })
         if 'chatbot' in st.session_state:
             del st.session_state['chatbot']
     else:
         if 'chatbot' in st.session_state:
             response = st.session_state['chatbot'].chat(input_text)
-            st.session_state.chat_history.append(f"{user_name}: {input_text}")
-            st.session_state.chat_history.append(f"{partner_name}: {response}")
+            st.session_state.chat_history.append({
+                'name': user_name,
+                'text': input_text
+            })
+            st.session_state.chat_history.append({
+                'name': partner_name,
+                'text': response
+            })
 
 
 def main():
