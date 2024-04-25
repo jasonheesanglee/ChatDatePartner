@@ -136,12 +136,15 @@ def main():
         user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
         submit_button = st.form_submit_button("Send")
 
-    # Move the display of chat messages outside the form to ensure they persist
-    for message in st.session_state.chat_history:
-        st.chat_message(message)
-
     if submit_button and user_input:
         send_message(user_input, user_name, partner_name)
+
+    # Move the display of chat messages outside the form to ensure they persist
+    for msg in st.session_state.chat_history:
+        # st.chat_message takes a string and automatically handles the display.
+        st.chat_message(msg)
+
+
 
 if __name__ == '__main__':
     main()
