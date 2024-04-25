@@ -69,6 +69,7 @@ def main():
         for message in st.session_state.chat_history:
             st.chat_message(message['message'], is_user=message['is_user'])
 
+
 if __name__ == '__main__':
     main()
 
