@@ -40,8 +40,9 @@ singyung = sidebar_slider('신경성', value=63.48)
 
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
+
 if 'chat_history' not in st.session_state:
-        st.session_state.chat_history = ""
+        st.session_state.chat_history = []
 
 if user_name and partner_name and apply_button:
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
@@ -54,14 +55,24 @@ if user_name and partner_name and apply_button:
     st.session_state['chatbot'] = chatbot
 
 if 'chatbot' in st.session_state:
-    user_input = st.text_input('메시지를 입력해주세요.:', key='user_input')
-    if st.button('Send'):
-        if user_input.lower() in ['exit', 'quit']:
-            st.write('Ending Chat Session')
-            del st.session_state['chatbot']
-            del st.session_state.chat_history
+    user_input = st.text_input('메시지를 입력해주세요.:', key='user_input', on_change=send_message)
+    send_button = st.button('Send', on_click=send_message)
+    for message in st.session_state.chat_history:
+        st.chat_message(**message)
 
-        else:
-            response = st.session_state['chatbot'].chat(user_input)
-            st.session_state.chat_history += f"{user_name}: {user_input}\n{partner_name}: {response}\n"
-            st.text_area('Chat', value=st.session_state.chat_history, height=300, disabled=True)
+def send_message():
+    user_input = st.session_state.user_input
+    if user_input.lower() in ['exit', 'quit']:
+        st.session_state.chat_history.append({'message' : 'Ending Chat Session.',
+                                              'is_user' : False
+                                              })
+        del st.session_state['chatbot']
+        del st.session_state.chat_history
+
+    else:
+        response = st.session_state['chatbot'].chat(user_input)
+        st.session_state.chat_history.append({'meesage' : user_input, 'is_user': True})
+        st.session_state.chat_history.append({'meesage': response, 'is_user': False})
+
+def clear_input():
+    st.session_state.user_input = ''
