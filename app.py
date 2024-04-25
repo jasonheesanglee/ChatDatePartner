@@ -138,7 +138,7 @@ def main():
 
     # Move the display of chat messages outside the form to ensure they persist
     for message in st.session_state.chat_history:
-        st.chat_message(message['message'], is_user=message['is_user'])
+        st.chat_message(message)
 
     if submit_button and user_input:
         send_message(user_input, user_name, partner_name)
