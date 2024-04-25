@@ -42,6 +42,22 @@ apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
+
+if user_name and partner_name and apply_button:
+    session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
+    chatbot = ChatBot(user_name=user_name, partner_name=partner_name,
+                      sex=gender, age=age, domain=domain,
+                      session_id=session_key,
+                      gaebang=gaebang, seongsil=seongsil,
+                      woehyang=woehyang, chinhwa=chinhwa,
+                      singyung=singyung, log_file_path=None)
+    st.session_state['chatbot'] = chatbot
+
+user_input = st.text_input('메시지를 입력해주세요:', key='user_input')
+
+if st.button('Send'):
+    send_message(user_input)
+
 def send_message():
     user_input = st.session_state.user_input.strip()
     if user_input.lower() in ['exit', 'quit']:
@@ -55,20 +71,10 @@ def send_message():
         st.session_state.chat_history.append({'meesage': response, 'is_user': False})
     st.session_state.user_input = ''
 
-if user_name and partner_name and apply_button:
-    session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
-    chatbot = ChatBot(user_name=user_name, partner_name=partner_name,
-                      sex=gender, age=age, domain=domain,
-                      session_id=session_key,
-                      gaebang=gaebang, seongsil=seongsil,
-                      woehyang=woehyang, chinhwa=chinhwa,
-                      singyung=singyung, log_file_path=None)
-    st.session_state['chatbot'] = chatbot
+#
+# if 'chatbot' in st.session_state:
+#     st.text_input('메시지를 입력해주세요.:', key='user_input', on_change=None)
 
-if 'chatbot' in st.session_state:
-    st.text_input('메시지를 입력해주세요.:', key='user_input', on_change=None)
-    if st.button('Send'):
-        send_message()
-    for message in st.session_state.chat_history:
-        st.chat_message(message['message'], is_user=message['is_user'])
+for message in st.session_state.chat_history:
+    st.chat_message(message['message'], is_user=message['is_user'])
 
