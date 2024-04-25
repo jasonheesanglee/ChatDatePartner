@@ -67,8 +67,8 @@ def send_message():
         del st.session_state['chatbot']
     else:
         response = st.session_state['chatbot'].chat(user_input)
-        st.session_state.chat_history.append({'meesage' : user_input, 'is_user': True})
-        st.session_state.chat_history.append({'meesage': response, 'is_user': False})
+        st.session_state.chat_history.append({'message' : user_input, 'is_user': True})
+        st.session_state.chat_history.append({'message': response, 'is_user': False})
     st.session_state.user_input = ''
 
 #
