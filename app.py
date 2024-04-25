@@ -58,7 +58,7 @@ def clear_input():
     st.session_state.user_input = ''
 
 if 'chat_history' not in st.session_state:
-        st.session_state.chat_history = []
+    st.session_state.chat_history = []
 
 if user_name and partner_name and apply_button:
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
