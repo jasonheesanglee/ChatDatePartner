@@ -12,7 +12,7 @@ st.header('개인화된 연인과 대화를 나누어보세요!')
 
 chat_date_img = Image.open('chat_gf.png')
 width, height = chat_date_img.size
-width, height = int(width/2), int(height/2)
+# width, height = int(width/2), int(height/2)
 chat_date_img = chat_date_img.resize((width, height))
 
 left_co, cent_co,last_co = st.columns(3)
