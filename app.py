@@ -82,10 +82,11 @@ if 'chatbot' in st.session_state:
                 })
                 with st.chat_message(partner_name):
                     st.write(response)
-            for msg in st.session_state.chat_history:
-            # st.chat_message takes a string and automatically handles the display.
-                with st.chat_message('user'):
-                    st.write(msg)
+
+            # for msg in st.session_state.chat_history:
+            # # st.chat_message takes a string and automatically handles the display.
+            #     with st.chat_message(msg.name):
+            #         st.write(msg.text)
 
             # st.session_state.chat_history += f"{user_name}: {user_input}\n{partner_name}: {response}"
             # st.text_area('Chat', value=st.session_state.chat_history, height=300, disabled=True)
