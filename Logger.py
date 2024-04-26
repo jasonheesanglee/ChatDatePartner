@@ -17,8 +17,8 @@ class Logger:
         else:
             with open(self.log_file_path, 'r') as f:
                 logs = json.load(f)
-        if self.user_id in self.logs.keys():
-            if self.session_id in self.logs[self.user_id]:
+        if self.user_id in logs.keys():
+            if self.session_id in logs[self.user_id]:
                 logs[self.user_id][self.session_id].append([current_time, user_input, chat_output])
             else:
                 logs[self.user_id].add({self.session_id : [[current_time, user_input, chat_output]]})
