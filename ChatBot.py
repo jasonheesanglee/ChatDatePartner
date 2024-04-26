@@ -154,5 +154,9 @@ class ChatBot:
                         )
         return response
 
+    def get_chat_histry(self):
+        history = logger.get_log()
+        return history
+
 
 

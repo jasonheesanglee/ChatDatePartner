@@ -47,7 +47,7 @@ singyung = sidebar_slider('신경성', value=63.48)
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
 if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = ""
+    st.session_state.chat_history = []
 if user_name and partner_name and apply_button:
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
@@ -59,7 +59,8 @@ if user_name and partner_name and apply_button:
                       singyung=singyung, log_file_path=None)
     st.session_state['chatbot'] = chatbot
 if 'chatbot' in st.session_state:
-    user_input = st.text_input('메시지를 입력해주세요.:', key='user_input')
+    with st.form('Chat Form', clear_on_submit=True):
+        user_input = st.text_input('메시지를 입력해주세요.:', key='user_input')
     if st.button('Send'):
         if user_input.lower() in ['exit', 'quit']:
             st.write('Ending Chat Session')
@@ -67,8 +68,29 @@ if 'chatbot' in st.session_state:
             del st.session_state.chat_history
         else:
             response = st.session_state['chatbot'].chat(user_input)
-            st.session_state.chat_history += f"{user_name}: {user_input}\n{partner_name}: {response}\n"
-            st.text_area('Chat', value=st.session_state.chat_history, height=300, disabled=True)
+            if 'chatbot' in st.session_state:
+                st.session_state.chat_history.append({
+                    'name': user_name,
+                    'text': input_text
+                })
+                with st.chat_message(user_name):
+                    st.write(input_text)
+                st.session_state.chat_history.append({
+                    'name': partner_name,
+                    'text': response
+                })
+                with st.chat_message(partner_name):
+                    st.write(response)
+            for msg in st.session_state.chat_history:
+            # st.chat_message takes a string and automatically handles the display.
+                with st.chat_message('user'):
+                    st.write(msg)
+
+            # st.session_state.chat_history += f"{user_name}: {user_input}\n{partner_name}: {response}"
+            # st.text_area('Chat', value=st.session_state.chat_history, height=300, disabled=True)
+
+
+
 
     #
     # # if 'chat_history' not in st.session_state:
