@@ -74,19 +74,19 @@ if 'chatbot' in st.session_state:
                     'name': user_name,
                     'text': user_input
                 })
-                with st.chat_message(user_name):
-                    st.write(user_input)
+                # with st.chat_message(user_name):
+                #     st.write(user_input)
                 st.session_state.chat_history.append({
                     'name': partner_name,
                     'text': response
                 })
-                with st.chat_message(partner_name):
-                    st.write(response)
+                # with st.chat_message(partner_name):
+                #     st.write(response)
 
-            # for msg in st.session_state.chat_history:
-            # # st.chat_message takes a string and automatically handles the display.
-            #     with st.chat_message(msg.name):
-            #         st.write(msg.text)
+            for msg in st.session_state.chat_history:
+            # st.chat_message takes a string and automatically handles the display.
+                with st.chat_message(msg.name):
+                    st.write(msg.text)
 
             # st.session_state.chat_history += f"{user_name}: {user_input}\n{partner_name}: {response}"
             # st.text_area('Chat', value=st.session_state.chat_history, height=300, disabled=True)
