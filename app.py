@@ -46,7 +46,7 @@ singyung = sidebar_slider('신경성', value=63.48)
 
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
-if 'chat_history' not in st.session_state:
+if 'chat_history' not in st.session_state or str(st.session_state.chat_history):
     st.session_state.chat_history = []
 if user_name and partner_name and apply_button:
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
@@ -72,10 +72,10 @@ if 'chatbot' in st.session_state:
             if 'chatbot' in st.session_state:
                 st.session_state.chat_history.append({
                     'name': user_name,
-                    'text': input_text
+                    'text': user_input
                 })
                 with st.chat_message(user_name):
-                    st.write(input_text)
+                    st.write(user_input)
                 st.session_state.chat_history.append({
                     'name': partner_name,
                     'text': response
