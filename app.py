@@ -133,30 +133,31 @@ def main():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
 
-    if user_name and partner_name and apply_button:
-        current_time = datetime.now().strftime('%Y%m%d%H%M%S')
-        session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
-        chatbot = ChatBot(user_name=user_name, partner_name=partner_name, sex=gender, age=age, domain=domain,
-                          session_id=session_key, gaebang=gaebang, seongsil=seongsil,
-                          woehyang=woehyang, chinhwa=chinhwa, singyung=singyung, log_file_path=None)
-        st.session_state['chatbot'] = chatbot
+    if st.session_state.chat_history == []:
+        if user_name and partner_name and apply_button:
+            current_time = datetime.now().strftime('%Y%m%d%H%M%S')
+            session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
+            chatbot = ChatBot(user_name=user_name, partner_name=partner_name, sex=gender, age=age, domain=domain,
+                              session_id=session_key, gaebang=gaebang, seongsil=seongsil,
+                              woehyang=woehyang, chinhwa=chinhwa, singyung=singyung, log_file_path=None)
+            st.session_state['chatbot'] = chatbot
 
-        with st.form("Chat Form", clear_on_submit=True):
-            user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
-            submit_button = st.form_submit_button("Send")
-            st.write(user_input)
+        else:
+            st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')
 
-        if submit_button and user_input:
-            send_message(user_input, user_name, partner_name)
+    with st.form("Chat Form", clear_on_submit=True):
+        user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
+        submit_button = st.form_submit_button("Send")
+        st.write(user_input)
 
-        # Move the display of chat messages outside the form to ensure they persist
-        for msg in st.session_state.chat_history:
-            # st.chat_message takes a string and automatically handles the display.
-            with st.chat_message('user'):
-                st.write(msg['text'])
+    if submit_button and user_input:
+        send_message(user_input, user_name, partner_name)
+    for msg in st.session_state.chat_history:
+        # st.chat_message takes a string and automatically handles the display.
+        with st.chat_message('user'):
+            st.write(msg['text'])
 
-    else:
-        st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')
+    # Move the display of chat messages outside the form to ensure they persist
 
 if __name__ == '__main__':
     main()
