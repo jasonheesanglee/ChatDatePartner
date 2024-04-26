@@ -142,11 +142,12 @@ if apply_button and user_name and partner_name:
                       session_id=session_key, gaebang=gaebang, seongsil=seongsil,
                       woehyang=woehyang, chinhwa=chinhwa, singyung=singyung, log_file_path=None)
     st.session_state['chatbot'] = chatbot
+    st.session_state['chat_history'] = []
     with st.form("Chat Form", clear_on_submit=True):
         user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
         submit_button = st.form_submit_button("Send")
         # st.write(user_input)
-elif st.session_state.chat_history:
+elif 'chatbot' in st.session_state:
     pass
 else:
     st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')

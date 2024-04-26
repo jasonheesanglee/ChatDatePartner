@@ -147,4 +147,4 @@ class ChatBot:
                         chat_output=response,
                         current_time=current_time
                         )
-        return(response)
+        return response
