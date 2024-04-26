@@ -140,7 +140,7 @@ apply_button = st.sidebar.button('연인과의 챗 시작하기')
 # submit_button = None
 # user_input = None
 
-if apply_button and user_name and partner_name:
+if (apply_button and user_name and partner_name) or ('chatbot' in st.session_state):
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, sex=gender, age=age, domain=domain,
@@ -150,12 +150,14 @@ if apply_button and user_name and partner_name:
     with st.form("Chat Form", clear_on_submit=True):
         user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
         submit_button = st.form_submit_button("Send")
+
+    if submit_button and user_input:
+        send_message(user_input, user_name, partner_name)
         # st.write(user_input)
 else:
     st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')
 
-if submit_button and user_input:
-    send_message(user_input, user_name, partner_name)
+
 
 
 
