@@ -38,6 +38,11 @@ class ChatBot:
         self.session_id = session_id
         self.log_file_path = log_file_path
         self.logger = Logger(user_id=f'{self.user_name}_{self.partner_name}_{self.domain}', session_id=self.session_id, log_file_path=self.log_file_path)
+        if log_file_path:
+            history = self.logger.get_log()
+        else:
+            history = {}
+
         if split_syllables(partner_name)[-1] in ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
                                               'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
                                               'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
@@ -148,3 +153,6 @@ class ChatBot:
                         current_time=current_time
                         )
         return response
+
+
+
