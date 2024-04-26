@@ -34,4 +34,4 @@ class Logger:
                 logs = json.load(f)
             return logs
         else:
-            return dict()
+            return {}
