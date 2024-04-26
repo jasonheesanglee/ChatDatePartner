@@ -103,7 +103,7 @@ def send_message(input_text, user_name, partner_name):
                 'text': response
             })
 
-st.st_page_config('Chat Date Partner', page_icon='😍')
+st.set_page_config('Chat Date Partner', page_icon='😍')
 st.title('Chat Date Partner')
 st.header('개인화된 연인과 대화를 나누어보세요!')
 
