@@ -141,7 +141,7 @@ def main():
                           woehyang=woehyang, chinhwa=chinhwa, singyung=singyung, log_file_path=None)
         st.session_state['chatbot'] = chatbot
 
-        with st.chat_stream("Chat Form", clear_on_submit=True):
+        with st.chat_form("Chat Form", clear_on_submit=True):
             user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
             submit_button = st.form_submit_button("Send")
             st.write(user_input)
