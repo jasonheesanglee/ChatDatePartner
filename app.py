@@ -153,7 +153,7 @@ def main():
         for msg in st.session_state.chat_history:
             # st.chat_message takes a string and automatically handles the display.
             with st.chat_message('user'):
-                st.write(msg)
+                st.write(msg.text)
 
     else:
         st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')
