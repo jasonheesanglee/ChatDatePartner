@@ -146,13 +146,13 @@ if apply_button and user_name and partner_name:
         user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
         submit_button = st.form_submit_button("Send")
         # st.write(user_input)
-    if submit_button and user_input:
-        send_message(user_input, user_name, partner_name)
-
-
+elif st.session_state.chat_history:
+    pass
 else:
     st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')
 
+if submit_button and user_input:
+    send_message(user_input, user_name, partner_name)
 
 
 
