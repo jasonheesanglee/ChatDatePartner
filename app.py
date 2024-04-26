@@ -141,19 +141,22 @@ def main():
                           woehyang=woehyang, chinhwa=chinhwa, singyung=singyung, log_file_path=None)
         st.session_state['chatbot'] = chatbot
 
-    with st.form("Chat Form", clear_on_submit=True):
-        user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
-        submit_button = st.form_submit_button("Send")
+        with st.chat_stream("Chat Form", clear_on_submit=True):
+            user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
+            submit_button = st.form_submit_button("Send")
+            st.write(user_input)
 
-    if submit_button and user_input:
-        send_message(user_input, user_name, partner_name)
+        if submit_button and user_input:
+            send_message(user_input, user_name, partner_name)
 
-    # Move the display of chat messages outside the form to ensure they persist
-    for msg in st.session_state.chat_history:
-        # st.chat_message takes a string and automatically handles the display.
-        st.chat_message(msg)
+        # Move the display of chat messages outside the form to ensure they persist
+        for msg in st.session_state.chat_history:
+            # st.chat_message takes a string and automatically handles the display.
+            with st.chat_message('user'):
+                st.write(msg)
 
-
+    else:
+        st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')
 
 if __name__ == '__main__':
     main()
