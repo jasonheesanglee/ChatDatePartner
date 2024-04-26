@@ -89,7 +89,8 @@ def send_message(input_text, user_name, partner_name):
             'name': user_name,
             'text': 'Ending Chat Session.'
         })
-        st.write(input_text)
+        with st.chat_message(user_name):
+            st.write(input_text)
         if 'chatbot' in st.session_state:
             del st.session_state['chatbot']
     else:
@@ -99,12 +100,14 @@ def send_message(input_text, user_name, partner_name):
                 'name': user_name,
                 'text': input_text
             })
-            st.write(input_text)
+            with st.chat_message(user_name):
+                st.write(input_text)
             st.session_state.chat_history.append({
                 'name': partner_name,
                 'text': response
             })
-            st.write(response)
+            with st.chat_message(partner_name):
+                st.write(response)
 
 
 st.set_page_config('Chat Date Partner', page_icon='😍')
@@ -134,8 +137,9 @@ singyung = sidebar_slider('신경성', value=63.48)
 apply_button = st.sidebar.button('연인과의 챗 시작하기')
 
 # ---------------------------------------------------------------------------------------------------------------------
-submit_button = None
-user_input = None
+# submit_button = None
+# user_input = None
+
 if apply_button and user_name and partner_name:
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
@@ -143,14 +147,10 @@ if apply_button and user_name and partner_name:
                       session_id=session_key, gaebang=gaebang, seongsil=seongsil,
                       woehyang=woehyang, chinhwa=chinhwa, singyung=singyung, log_file_path=None)
     st.session_state['chatbot'] = chatbot
-    st.session_state['chat_history'] = []
     with st.form("Chat Form", clear_on_submit=True):
         user_input = st.text_input("메시지를 입력해주세요:", key="chat_input")
         submit_button = st.form_submit_button("Send")
         # st.write(user_input)
-elif 'chatbot' in st.session_state:
-    pass
-
 else:
     st.warning('연인과의 챗 시작하기 버튼을 눌러주세요.')
 
