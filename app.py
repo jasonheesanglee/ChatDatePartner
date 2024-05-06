@@ -63,19 +63,8 @@ if user_name and partner_name and apply_button:
 
 if 'chatbot' in st.session_state:
     messages = st.container(height=600)
-    # prompt = st.chat_input("메시지를 입력해주세요 : ")
-
-    # if st.session_state.chat_history != []:
-    #     # for msg in st.session_state.chat_history:
-    #     #     # st.chat_message takes a string and automatically handles the display.
-    #         messages.chat_message(msg['name']).write(msg['text'])
-    # else:
-    #     pass
-
-    # with st.form('Chat Form', clear_on_submit=True):
-    #     user_input = st.chat_input()
-        # submit_button = st.form_submit_button("Send")
-    # if submit_button:
+    for msg in st.session_state.chatbot:
+        messages.chat(msg[name]).write(text)
     if prompt := st.chat_input('메시지를 입력해주세요 : '):
         messages.chat_message(user_name).write(prompt)
 
@@ -86,16 +75,15 @@ if 'chatbot' in st.session_state:
         else:
             response = st.session_state['chatbot'].chat(prompt)
             messages.chat_message(partner_name).write(response)
-            #
-            # st.session_state.chat_history.append({
-            #     'name': user_name,
-            #     'text': user_input,
-            #     'text_time' : str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
-            # })
-            #
-            # st.session_state.chat_history.append({
-            #     'name': partner_name,
-            #     'text': response,
-            #     'text_time': str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
-            #
-            # })
+            st.session_state.chat_history.append({
+                'name': user_name,
+                'text': user_input,
+                'text_time' : str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
+            })
+
+            st.session_state.chat_history.append({
+                'name': partner_name,
+                'text': response,
+                'text_time': str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
+
+            })
