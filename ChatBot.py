@@ -64,18 +64,18 @@ class ChatBot:
         else:
             self.u_syl = ['이', '아', '이는', '을', '이야', '이']  # 희상이는
 
-        self.gemini_safety_settings = {
-            HarmCategory.HARM_CATEGORY_DEROGATORY:HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUAL:HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_MEDICAL:HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_UNSPECIFIED:HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DANGEROUS:HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_TOXICITY:HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE
-        }
+        # self.gemini_safety_settings = {
+        #     HarmCategory.HARM_CATEGORY_DEROGATORY:HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_SEXUAL:HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_MEDICAL:HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_UNSPECIFIED:HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_DANGEROUS:HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_TOXICITY:HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+        #     HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE
+        # }
 
         self.system_message = ' '.join(f'''
                  너는 이제부터 {self.partner_name}{self.p_syl[5]}라는 이름과 아래의 특징을 가진 {self.user_name}의 여자친구가 될거야.
@@ -116,7 +116,7 @@ class ChatBot:
         self.human_message = HumanMessagePromptTemplate.from_template('{user_name} :{topic}')
         self.chat_prompt = ChatPromptTemplate.from_messages([self.system_prompt, self.human_message])
         self.llm = ChatGoogleGenerativeAI(model='gemini-1.5-pro-latest',
-                                          safety_settings=self.gemini_safety_settings,
+                                          # safety_settings=self.gemini_safety_settings,
                                           google_api_key=GoogleAIStudio_API_Key,
                                           )
 
