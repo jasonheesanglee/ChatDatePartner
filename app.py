@@ -6,7 +6,7 @@ from datetime import datetime
 
 def sidebar_slider(factor, value):
     return st.sidebar.slider(factor, 0.00, 100.00, value=value)
-
+#
 # def send_message(input_text):
 #     if input_text.lower() in ['exit', 'quit']:
 #         st.session_state.chat_history.append({'message': 'Ending Chat Session.', 'is_user': False})
@@ -63,6 +63,7 @@ if user_name and partner_name and apply_button:
 
 if 'chatbot' in st.session_state:
     messages = st.container(height=600)
+    chatbot.initializer()
     if st.session_state.chat_history != []:
         for msg in st.session_state.chat_history:
             messages.chat_message(msg['name']).write(msg['text'])

@@ -25,12 +25,12 @@ class Logger:
         else:
             logs[self.user_id] = {self.session_id : [[current_time, user_input, chat_output]]}
 
-        with open(self.log_file_path, 'w') as f:
+        with open(self.log_file_path, 'w', encoding='utf-8') as f:
             json.dump(logs, f)
 
     def get_log(self):
         if os.path.exists(self.log_file_path):
-            with open(self.log_file_path, 'r') as f:
+            with open(self.log_file_path, 'r', encoding='utf-8') as f:
                 logs = json.load(f)
             return logs
         else:
