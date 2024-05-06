@@ -57,7 +57,7 @@ if user_name and partner_name and apply_button:
                       session_id=session_key,
                       gaebang=gaebang, seongsil=seongsil,
                       woehyang=woehyang, chinhwa=chinhwa,
-                      singyung=singyung, log_file_path=None)
+                      singyung=singyung, log_file_path='./logs')
     st.session_state['chatbot'] = chatbot
 
 
