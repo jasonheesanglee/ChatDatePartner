@@ -74,12 +74,16 @@ if 'chatbot' in st.session_state:
         user_input = st.text_input('메시지를 입력해주세요 :', key='user_input')
         submit_button = st.form_submit_button("Send")
     if submit_button:
+        with st.chat_message(user_name):
+            st.write(user_input)
         if user_input.lower() in ['exit', 'quit']:
             st.write('Ending Chat Session')
             del st.session_state['chatbot']
             del st.session_state.chat_history
         else:
             response = st.session_state['chatbot'].chat(user_input)
+            with st.chat_message(partner_name):
+                st.write(response)
             if 'chatbot' in st.session_state:
                 st.session_state.chat_history.append({
                     'name': user_name,
