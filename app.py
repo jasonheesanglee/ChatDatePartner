@@ -60,9 +60,8 @@ if user_name and partner_name and apply_button:
                       singyung=singyung, log_file_path=None)
     st.session_state['chatbot'] = chatbot
 
-switch = True
 
-while switch:
+if 'chatbot' in st.session_state:
     if st.session_state.chat_history != []:
         for msg in st.session_state.chat_history:
             # st.chat_message takes a string and automatically handles the display.
@@ -70,21 +69,15 @@ while switch:
                 st.write(msg['text'])
     else:
         pass
-    if 'Chat Form' not in st.form:
-        with st.form('Chat Form', clear_on_submit=True):
-            user_input = st.text_input('메시지를 입력해주세요.', key='user_input')
-            submit_button = st.form_submit_button("Send")
+
+    with st.form('Chat Form', clear_on_submit=True):
+        user_input = st.text_input('메시지를 입력해주세요 :', key='user_input')
+        submit_button = st.form_submit_button("Send")
     if submit_button:
         if user_input.lower() in ['exit', 'quit']:
             st.write('Ending Chat Session')
             del st.session_state['chatbot']
             del st.session_state.chat_history
-
-            for msg in st.session_state.chat_history:
-                # st.chat_message takes a string and automatically handles the display.
-                with st.chat_message(msg['name']):
-                    st.write(msg['text'])
-            swithch = False
         else:
             response = st.session_state['chatbot'].chat(user_input)
             if 'chatbot' in st.session_state:
