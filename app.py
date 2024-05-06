@@ -78,7 +78,7 @@ if 'chatbot' in st.session_state:
             messages.chat_message(partner_name).write(response)
             st.session_state.chat_history.append({
                 'name': user_name,
-                'text': user_input,
+                'text': prompt,
                 'text_time' : str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
             })
 
