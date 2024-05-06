@@ -59,7 +59,16 @@ if user_name and partner_name and apply_button:
                       woehyang=woehyang, chinhwa=chinhwa,
                       singyung=singyung, log_file_path=None)
     st.session_state['chatbot'] = chatbot
+
 if 'chatbot' in st.session_state:
+    if st.session_state.chat_history != []:
+        for msg in st.session_state.chat_history:
+            # st.chat_message takes a string and automatically handles the display.
+            with st.chat_message(msg['name']):
+                st.write(msg['text'])
+    else:
+        pass
+
     with st.form('Chat Form', clear_on_submit=True):
         user_input = st.text_input('메시지를 입력해주세요.:', key='user_input')
         submit_button = st.form_submit_button("Send")
@@ -76,18 +85,14 @@ if 'chatbot' in st.session_state:
                     'text': user_input,
                     'text_time' : str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
                 })
-                # with st.chat_message(user_name):
-                #     st.write(user_input)
+
+                with st.chat_message(st.session_state.chat_history[-1]['name']):
+                    st.write(st.session_state.chat_history[-1]['text'])
                 st.session_state.chat_history.append({
                     'name': partner_name,
                     'text': response,
                     'text_time': str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
 
                 })
-                # with st.chat_message(partner_name):
-                #     st.write(response)
-
-        for msg in st.session_state.chat_history:
-        # st.chat_message takes a string and automatically handles the display.
-            with st.chat_message(msg['name']):
-                st.write(msg['text'])
+                with st.chat_message(st.session_state.chat_history[-1]['name']):
+                    st.write(st.session_state.chat_history[-1]['text'])
