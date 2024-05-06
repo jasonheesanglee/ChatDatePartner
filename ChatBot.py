@@ -114,6 +114,7 @@ class ChatBot:
         self.human_message = HumanMessagePromptTemplate.from_template('{user_name} :{topic}')
         self.chat_prompt = ChatPromptTemplate.from_messages([self.system_prompt, self.human_message])
         self.llm = ChatGoogleGenerativeAI(model='gemini-1.5-pro-latest',
+                                          safety_ratings=self.gemini_safety_settings,
                                           safety_settings=self.gemini_safety_settings,
                                           google_api_key=GoogleAIStudio_API_Key,
                                           # client=generativeai.GenerativeModel(
