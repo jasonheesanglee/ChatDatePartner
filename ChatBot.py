@@ -116,11 +116,12 @@ class ChatBot:
         self.llm = ChatGoogleGenerativeAI(model='gemini-1.5-pro-latest',
                                           safety_settings=self.gemini_safety_settings,
                                           google_api_key=GoogleAIStudio_API_Key,
-                                          client=generativeai.GenerativeModel(
-                                              model_name='gemini-1.5-pro-latest',
-                                              safety_settings=self.gemini_safety_settings,
-                                              system_instruction=self.chat_prompt.json())
+                                          # client=generativeai.GenerativeModel(
+                                          #     model_name='gemini-1.5-pro-latest',
+                                          #     safety_settings=self.gemini_safety_settings,
+                                          #     system_instruction=self.chat_prompt.json())
                                           )
+        self.llm.safety_settings = self.gemini_safety_settings
 
         self.runnable = self.chat_prompt | self.llm
         # print(self.runnable)
