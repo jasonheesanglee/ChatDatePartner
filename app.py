@@ -62,7 +62,7 @@ if user_name and partner_name and apply_button:
 
 
 if 'chatbot' in st.session_state:
-    messages = st.container(height=600, max_width=600)
+    messages = st.container(height=600)
     prompt = st.chat_input("메시지를 입력해주세요 : ")
 
     # if st.session_state.chat_history != []:
@@ -84,7 +84,7 @@ if 'chatbot' in st.session_state:
             del st.session_state['chatbot']
             del st.session_state.chat_history
         else:
-            response = st.session_state['chatbot'].chat(user_input)
+            response = st.session_state['chatbot'].chat(prompt)
             messages.chat_message(parnter_name).write(response)
             #
             # st.session_state.chat_history.append({
