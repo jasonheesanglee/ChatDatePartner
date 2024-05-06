@@ -7,16 +7,16 @@ from datetime import datetime
 def sidebar_slider(factor, value):
     return st.sidebar.slider(factor, 0.00, 100.00, value=value)
 
-def send_message(input_text):
-    if input_text.lower() in ['exit', 'quit']:
-        st.session_state.chat_history.append({'message': 'Ending Chat Session.', 'is_user': False})
-        if 'chatbot' in st.session_state:
-            del st.session_state['chatbot']
-    else:
-        if 'chatbot' in st.session_state:
-            response = st.session_state['chatbot'].chat(input_text)
-            st.session_state.chat_history.append({'message': input_text, 'is_user': True})
-            st.session_state.chat_history.append({'message': response, 'is_user': False})
+# def send_message(input_text):
+#     if input_text.lower() in ['exit', 'quit']:
+#         st.session_state.chat_history.append({'message': 'Ending Chat Session.', 'is_user': False})
+#         if 'chatbot' in st.session_state:
+#             del st.session_state['chatbot']
+#     else:
+#         if 'chatbot' in st.session_state:
+#             response = st.session_state['chatbot'].chat(input_text)
+#             st.session_state.chat_history.append({'message': input_text, 'is_user': True})
+#             st.session_state.chat_history.append({'message': response, 'is_user': False})
 
 
 st.set_page_config('Chat Date Partner', page_icon='😍')
@@ -38,7 +38,7 @@ user_name = st.sidebar.text_input('이름/닉네임을 입력해주세요')
 partner_name = st.sidebar.text_input('연인의 이름/닉네임을 입력해주세요')
 gender = st.sidebar.selectbox('연인의 성별을 골라주세요.', ['여자', '남자'])
 age = st.sidebar.slider('연인의 나이를 설정해주세요.', 21, 100, value=26)
-domain = st.sidebar.selectbox('연인의 전공을 골라주세요.', ['컴퓨터공학', '기계공학', '경제학', '수학', '호텔경영학'])
+domain = st.sidebar.selectbox('연인의 전공을 골라주세요.', ['호텔경영학', '컴퓨터공학', '기계공학', '경제학', '수학'])
 gaebang = sidebar_slider('개방성', value=84.40)
 seongsil = sidebar_slider('성실성', value=92.91)
 woehyang = sidebar_slider('외향성', value=90.43)
@@ -60,7 +60,9 @@ if user_name and partner_name and apply_button:
                       singyung=singyung, log_file_path=None)
     st.session_state['chatbot'] = chatbot
 
-if 'chatbot' in st.session_state:
+switch = True
+
+while switch:
     if st.session_state.chat_history != []:
         for msg in st.session_state.chat_history:
             # st.chat_message takes a string and automatically handles the display.
@@ -77,6 +79,12 @@ if 'chatbot' in st.session_state:
             st.write('Ending Chat Session')
             del st.session_state['chatbot']
             del st.session_state.chat_history
+
+            for msg in st.session_state.chat_history:
+                # st.chat_message takes a string and automatically handles the display.
+                with st.chat_message(msg['name']):
+                    st.write(msg['text'])
+            swithch = False
         else:
             response = st.session_state['chatbot'].chat(user_input)
             if 'chatbot' in st.session_state:
@@ -86,13 +94,13 @@ if 'chatbot' in st.session_state:
                     'text_time' : str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
                 })
 
-                with st.chat_message(st.session_state.chat_history[-1]['name']):
-                    st.write(st.session_state.chat_history[-1]['text'])
+                # with st.chat_message(st.session_state.chat_history[-1]['name']):
+                #     st.write(st.session_state.chat_history[-1]['text'])
                 st.session_state.chat_history.append({
                     'name': partner_name,
                     'text': response,
                     'text_time': str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S')),
 
                 })
-                with st.chat_message(st.session_state.chat_history[-1]['name']):
-                    st.write(st.session_state.chat_history[-1]['text'])
+                # with st.chat_message(st.session_state.chat_history[-1]['name']):
+                #     st.write(st.session_state.chat_history[-1]['text'])
