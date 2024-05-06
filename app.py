@@ -85,7 +85,7 @@ if 'chatbot' in st.session_state:
             del st.session_state.chat_history
         else:
             response = st.session_state['chatbot'].chat(prompt)
-            messages.chat_message(parnter_name).write(response)
+            messages.chat_message(partner_name).write(response)
             #
             # st.session_state.chat_history.append({
             #     'name': user_name,
