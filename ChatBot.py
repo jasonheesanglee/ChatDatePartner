@@ -16,7 +16,7 @@ from google.generativeai.types.safety_types import HarmBlockThreshold, HarmCateg
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, \
     HumanMessagePromptTemplate, ChatMessagePromptTemplate
 
-if 'secrets' in st:
+if 'secrets' in st.secrets:
     GoogleAIStudio_API_Key = st.secrets['GoogleAIStudio_API']
 else:
     with open('secrets.json') as secrets:
