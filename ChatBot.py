@@ -116,50 +116,49 @@ class ChatBot:
                  '''.split())
 
         self.system_prompt = SystemMessagePromptTemplate.from_template(self.system_message)
-        self.human_message = HumanMessagePromptTemplate.from_template('{user_name} :{topic}')
-        self.chat_prompt = ChatPromptTemplate.from_messages([self.system_prompt, self.human_message])
-        self.llm = ChatGoogleGenerativeAI(model='gemini-1.5-pro-latest',
-                                          safety_settings=self.gemini_safety_settings,
-                                          google_api_key=GoogleAIStudio_API_Key,
-                                          client=generativeai.GenerativeModel(
-                                              model_name='gemini-1.5-pro-latest',
-                                              safety_settings=self.gemini_safety_settings,
-                                              system_instruction=self.chat_prompt.json())
-                                          )
+        # self.human_message = HumanMessagePromptTemplate.from_template('{user_name} :{topic}')
+        # self.chat_prompt = ChatPromptTemplate.from_messages([self.system_prompt, self.human_message])
+        # self.llm = ChatGoogleGenerativeAI(model='gemini-1.5-pro-latest',
+        #                                   safety_settings=self.gemini_safety_settings,
+        #                                   google_api_key=GoogleAIStudio_API_Key,
+        #                                   client=generativeai.GenerativeModel(
+        #                                       model_name='gemini-1.5-pro-latest',
+        #                                       safety_settings=self.gemini_safety_settings,
+        #                                       system_instruction=self.chat_prompt.json())
+        #                                   )
 
-        self.runnable = self.chat_prompt | self.llm
+        # self.runnable = self.chat_prompt | self.llm
+        def get_chat_histry(self):
+            history = self.logger.get_log()
+            chat_history = []
+            if self.session_id in history:
+                session_hist = [self.session_id]
+                for user, chatbot, _ in session_hist:
+                    chat_history.append(user)
+                    chat_history.append(chatbot)
+            return chat_history
 
-        self.with_message_history = RunnableWithMessageHistory(
-            self.runnable,
-            self.get_session_history,
-            input_messages_key='topic',
-            history_messages_key='history',
-        )
+        def get_session_history(self, session_id: str) -> BaseChatMessageHistory:
+            if session_id not in self.store:
+                self.store[session_id] = ChatMessageHistory()
+            return self.store[session_id]
+
+        # self.with_message_history = RunnableWithMessageHistory(
+        #     self.runnable,
+        #     self.get_session_history,
+        #     input_messages_key='topic',
+        #     history_messages_key='history',
+        # )
 
         self.co = cohere.Client(api_key=COHERE_API_KEY)
 
         self.store = {}
 
-    def initializer(self):
-        response = self.with_message_history.invoke({'user_name': self.user_name, 'topic': self.system_message},
-                                                    config={'configurable': {'session_id': self.session_id}}
-                                                    ).content
-        return response
-
-    def get_chat_histry(self):
-        history = self.logger.get_log()
-        chat_history = []
-        if self.session_id in history:
-            session_hist = [self.session_id]
-            for user, chatbot, _ in session_hist:
-                chat_history.append(user)
-                chat_history.append(chatbot)
-        return chat_history
-
-    def get_session_history(self, session_id: str) -> BaseChatMessageHistory:
-        if session_id not in self.store:
-            self.store[session_id] = ChatMessageHistory()
-        return self.store[session_id]
+    # def initializer(self):
+    #     response = self.with_message_history.invoke({'user_name': self.user_name, 'topic': self.system_message},
+    #                                                 config={'configurable': {'session_id': self.session_id}}
+    #                                                 ).content
+    #     return response
 
     # def chat(self, user_input): ## Gemini
     #     current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
