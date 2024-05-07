@@ -176,7 +176,7 @@ class ChatBot:
     def chat(self, user_input):  ## Cohere
         current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
         response = self.co.chat(
-            chat_history=self.get_chat_histry(),
+            chat_history=self.get_chat_history(),
             preamble=self.system_message,
             message=user_input,
             connectors=[{"id": "web-search"}],
