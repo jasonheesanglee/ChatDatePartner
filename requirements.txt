@@ -1,4 +1,5 @@
 pytz
+cohere
 streamlit
 langchain
 langchain-core
