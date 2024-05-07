@@ -6,18 +6,6 @@ from datetime import datetime
 
 def sidebar_slider(factor, value):
     return st.sidebar.slider(factor, 0.00, 100.00, value=value)
-#
-# def send_message(input_text):
-#     if input_text.lower() in ['exit', 'quit']:
-#         st.session_state.chat_history.append({'message': 'Ending Chat Session.', 'is_user': False})
-#         if 'chatbot' in st.session_state:
-#             del st.session_state['chatbot']
-#     else:
-#         if 'chatbot' in st.session_state:
-#             response = st.session_state['chatbot'].chat(input_text)
-#             st.session_state.chat_history.append({'message': input_text, 'is_user': True})
-#             st.session_state.chat_history.append({'message': response, 'is_user': False})
-
 
 st.set_page_config('Chat Date Partner', page_icon='😍')
 
@@ -26,7 +14,6 @@ st.header('개인화된 연인과 대화를 나누어보세요!')
 
 chat_date_img = Image.open('chat_gf.png')
 width, height = chat_date_img.size
-# width, height = int(width/2), int(height/2)
 chat_date_img = chat_date_img.resize((width, height))
 
 left_co, cent_co, last_co = st.columns(3)
