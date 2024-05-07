@@ -45,13 +45,14 @@ class ChatBot:
         self.woehyang = woehyang
         self.chinhwa = chinhwa
         self.singyung = singyung
+
         self.session_id = session_id
         self.log_file_path = log_file_path
         self.logger = Logger(user_id=f'{self.user_name}_{self.partner_name}_{self.domain}',
                              session_id=self.session_id,
                              log_file_path=self.log_file_path)
-
-
+        self.co = cohere.Client(api_key=COHERE_API_KEY)
+        self.store = {}
         if split_syllables(partner_name)[-1] in ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
                                                  'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
                                                  'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
@@ -128,20 +129,6 @@ class ChatBot:
         #                                   )
 
         # self.runnable = self.chat_prompt | self.llm
-        def get_chat_histry(self):
-            history = self.logger.get_log()
-            chat_history = []
-            if self.session_id in history:
-                session_hist = [self.session_id]
-                for user, chatbot, _ in session_hist:
-                    chat_history.append(user)
-                    chat_history.append(chatbot)
-            return chat_history
-
-        def get_session_history(self, session_id: str) -> BaseChatMessageHistory:
-            if session_id not in self.store:
-                self.store[session_id] = ChatMessageHistory()
-            return self.store[session_id]
 
         # self.with_message_history = RunnableWithMessageHistory(
         #     self.runnable,
@@ -150,9 +137,21 @@ class ChatBot:
         #     history_messages_key='history',
         # )
 
-        self.co = cohere.Client(api_key=COHERE_API_KEY)
+    def get_chat_history(self):
+        history = self.logger.get_log()
+        chat_history = []
+        if self.session_id in history:
+            session_hist = [self.session_id]
+            for user, chatbot, _ in session_hist:
+                chat_history.append(user)
+                chat_history.append(chatbot)
+        return chat_history
 
-        self.store = {}
+    def get_session_history(self, session_id: str) -> BaseChatMessageHistory:
+        if session_id not in self.store:
+            self.store[session_id] = ChatMessageHistory()
+        return self.store[session_id]
+
 
     # def initializer(self):
     #     response = self.with_message_history.invoke({'user_name': self.user_name, 'topic': self.system_message},
