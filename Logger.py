@@ -7,11 +7,14 @@ class Logger:
         self.session_id = session_id
         self.log_file_path = log_file_path
 
-    def get_log(self):
+    def alter_dir(self):
         if self.log_file_path == None:
             if not os.path.exists('./logs'):
                 os.mkdir('./logs')
             self.log_file_path = f'./logs/{self.user_id}.json'
+
+    def get_log(self):
+        self.alter_dir()
         if os.path.exists(self.log_file_path):
             try:
                 with open(self.log_file_path, 'r', encoding='utf-8') as f:
@@ -33,7 +36,6 @@ class Logger:
     def log(self, user_input, chat_output, current_time):
         logs = self.get_log()
         user_session = logs.setdefault(user_input, {}).setdefault(self.session_id, [])
-
         if self.user_id in logs.keys():
             if self.session_id in logs[self.user_id]:
                 logs[self.user_id][self.session_id].append(self.log_message(user_input,
