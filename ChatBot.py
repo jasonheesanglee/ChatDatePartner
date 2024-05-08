@@ -83,12 +83,11 @@ class ChatBot:
         {self.partner_name}{self.p_syl[2]} 이전 남자친구들의 난폭한 성향 때문에 남자친구를 사귀는 것을 두려워했으나, {self.user_name}의 따뜻한 마음 덕분에 사귀어보기로 결심하였다.
         '''
 
-        self.system_message = ' '.join(f'''
+        system_message = ' '.join(f'''
                  너는 이제부터 {self.partner_name}{self.p_syl[5]}라는 이름과 아래의 특징을 가진 {self.user_name}의 여자친구가 될거야.
 
                  name : {self.partner_name}
                  sex : {self.sex}
-                 today's date : {self.today}
                  characteristic : {self.trait}
                  relationship with user : {self.user_name}의 여자친구.
                  five factor model : 개방성 : {self.gaebang}%
@@ -115,27 +114,7 @@ class ChatBot:
                  professional domain : {self.domain}
                  age : {self.age} (나이는 참고만 해줘)
                  '''.split())
-
-        self.system_prompt = SystemMessagePromptTemplate.from_template(self.system_message)
-        # self.human_message = HumanMessagePromptTemplate.from_template('{user_name} :{topic}')
-        # self.chat_prompt = ChatPromptTemplate.from_messages([self.system_prompt, self.human_message])
-        # self.llm = ChatGoogleGenerativeAI(model='gemini-1.5-pro-latest',
-        #                                   safety_settings=self.gemini_safety_settings,
-        #                                   google_api_key=GoogleAIStudio_API_Key,
-        #                                   client=generativeai.GenerativeModel(
-        #                                       model_name='gemini-1.5-pro-latest',
-        #                                       safety_settings=self.gemini_safety_settings,
-        #                                       system_instruction=self.chat_prompt.json())
-        #                                   )
-
-        # self.runnable = self.chat_prompt | self.llm
-
-        # self.with_message_history = RunnableWithMessageHistory(
-        #     self.runnable,
-        #     self.get_session_history,
-        #     input_messages_key='topic',
-        #     history_messages_key='history',
-        # )
+        self.system_message = system_message + "\n지금 날짜와 시간은 {time}이야"
 
     def get_chat_history(self):
         history = self.logger.get_log()
@@ -152,31 +131,11 @@ class ChatBot:
             self.store[session_id] = ChatMessageHistory()
         return self.store[session_id]
 
-
-    # def initializer(self):
-    #     response = self.with_message_history.invoke({'user_name': self.user_name, 'topic': self.system_message},
-    #                                                 config={'configurable': {'session_id': self.session_id}}
-    #                                                 ).content
-    #     return response
-
-    # def chat(self, user_input): ## Gemini
-    #     current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
-    #     response = self.with_message_history.invoke({'user_name':self.user_name, 'topic': user_input},
-    #         config={'configurable': {'session_id': self.session_id}}
-    #     ).content
-    #
-    #     current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
-    #     self.logger.log(user_input=user_input,
-    #                     chat_output=response,
-    #                     current_time=current_time
-    #                     )
-    #     return response
-
     def chat(self, user_input):  ## Cohere
         current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
         response = self.co.chat(
             chat_history=self.get_chat_history(),
-            preamble=self.system_message,
+            preamble=self.system_message.replace('{time}', current_time),
             message=user_input,
             connectors=[{"id": "web-search"}],
         ).text
