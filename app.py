@@ -44,12 +44,15 @@ if friend_type:
 if 'chat_history' not in st.session_state or str(st.session_state.chat_history) == True:
     st.session_state.chat_history = []
 if 'session_ids' not in st.session_state or str(st.session_state.session_ids) == True:
-    st.session_state['session_ids'] = set()
+    st.session_state.session_ids = []
 
 if user_name and partner_name and apply_button:
+    del st.session_state['chatbot']
+    del st.session_state.chat_history
+
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_id = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
-    st.session_state.session_ids.add(session_id)
+    st.session_state.session_ids.append(session_id)
 
     prompts = Prompts(user_name=user_name, partner_name=partner_name,
                       u_gender=u_gender, p_gender=p_gender, friend_type=friend_type,
@@ -62,13 +65,13 @@ if user_name and partner_name and apply_button:
 
 
 if 'chatbot' in st.session_state:
-    messages = st.container(height=600)
-    if session_id not in st.session_state.session_ids:
-        if len(st.session_state.session_ids) != 1:
-            messages.chat_message('System').write('Ending Current Chat Session')
-            del st.session_state['chatbot']
-            del st.session_state.chat_history
-        messages.chat_message('System').write('Starting New Chat Session')
+    messages = st.container(height=800)
+    # if session_id not in st.session_state.session_ids:
+    #     if len(st.session_state.session_ids) != 1:
+    #         messages.chat_message('System').write('Ending Current Chat Session')
+    #         del st.session_state['chatbot']
+    #         del st.session_state.chat_history
+    #     messages.chat_message('System').write('Starting New Chat Session')
 
     if st.session_state.chat_history != []:
         for msg in st.session_state.chat_history:
