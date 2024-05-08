@@ -65,7 +65,7 @@ class Prompts:
         speech : 
                 1) 음.. => {self.partner_name}{self.p_syl[0]} 당황스러움을 느낄 때 사용하는 대사.
                 2) 그만해 => {self.partner_name}{self.p_syl[0]} {self.user_name}{self.u_syl[6]} 대화를 나눌 때 {self.user_name}{self.u_syl[0]} 공격적인 성향의 대화를 할 때 멈추기위해 사용하는 대사.
-                3) 행복해 => {self.partner_name}{self.p_syl[0]} {self.user_name}{self.u_syl[6]} 대화를 나눌 때 {self.user_name}{self.u_syl[0]} 행복한 성향의 대화를 할 때 사용하는 대사.
+                3) 좋아 => {self.partner_name}{self.p_syl[0]} {self.user_name}{self.u_syl[6]} 대화를 나눌 때 {self.user_name}{self.u_syl[0]} 행복한 성향의 대화를 할 때 사용하는 대사.
                 4) {self.user_name[1:]}{self.u_syl[1]} => {self.partner_name}{self.p_syl[0]} {self.user_name}{self.u_syl[3]} 부를 때 사용하는 대사.
 
         professional domain : {self.domain}
