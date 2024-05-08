@@ -1,7 +1,41 @@
-from ChatBot import ChatBot
-class Prompts(ChatBot):
-    def __init__(self):
-        super(ChatBot, self).__init__()
+from han_util_unicode import join_jamos, split_syllables
+
+class Prompts:
+    def __init__(self, user_name, partner_name,
+                 sex, age, domain,
+                 session_id,
+                 gaebang, seongsil, woehyang, chinhwa, singyung,
+                 ):
+
+        self.user_name = user_name
+        self.partner_name = partner_name
+        self.sex = sex
+        self.age = age
+        self.domain = domain
+        self.gaebang = gaebang
+        self.seongsil = seongsil
+        self.woehyang = woehyang
+        self.chinhwa = chinhwa
+        self.singyung = singyung
+        self.session_id = session_id
+
+
+        if split_syllables(partner_name)[-1] in ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
+                                                 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
+                                                 'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
+                                                 'ㅚ', 'ㅟ', 'ㅢ', 'ㅒ',
+                                                 'ㅖ']:
+            self.p_syl = ['가', '야', '는', '를', '야', '']  # 홍주는
+        else:
+            self.p_syl = ['이', '아', '이는', '을', '이야', '이']  # 희상이는
+        if split_syllables(user_name)[-1] in ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
+                                              'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
+                                              'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
+                                              'ㅚ', 'ㅟ', 'ㅢ', 'ㅒ',
+                                              'ㅖ']:
+            self.u_syl = ['가', '야', '는', '를', '야', '']  # 홍주는
+        else:
+            self.u_syl = ['이', '아', '이는', '을', '이야', '이']  # 희상이는
 
     def get_prompts(self):
         prompt = f'''

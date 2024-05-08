@@ -15,14 +15,16 @@ class Logger:
 
     def get_log(self):
         self.alter_dir()
+        base_template =  {self.user_id: {self.session_id:[]}}
+
         if os.path.exists(self.log_file_path):
             try:
                 with open(self.log_file_path, 'r', encoding='utf-8') as f:
                     logs = json.load(f)
             except json.JSONDecodeError:
-                logs = {self.user_id: {self.session_id:[]}}
+                logs = base_template
         else:
-            logs = {self.user_id: {self.session_id:[]}}
+            logs = base_template
         return logs
 
     def log_message(self, user_input, chat_output, current_time):

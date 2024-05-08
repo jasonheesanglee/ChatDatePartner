@@ -1,6 +1,7 @@
 import pytz
 from PIL import Image
 import streamlit as st
+from Prompts import Prompts
 from ChatBot import ChatBot
 from datetime import datetime
 
@@ -39,18 +40,18 @@ if 'chat_history' not in st.session_state or str(st.session_state.chat_history) 
 if user_name and partner_name and apply_button:
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
-    chatbot = ChatBot(user_name=user_name, partner_name=partner_name,
+    prompts = Prompts(user_name=user_name, partner_name=partner_name,
                       sex=gender, age=age, domain=domain,
-                      session_id=session_key,
-                      gaebang=gaebang, seongsil=seongsil,
-                      woehyang=woehyang, chinhwa=chinhwa,
-                      singyung=singyung, log_file_path=None)
+                      session_id=session_key, gaebang=gaebang, seongsil=seongsil,
+                      woehyang=woehyang, chinhwa=chinhwa, singyung=singyung
+                      )
+    chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
+                      session_id=session_key, log_file_path=None)
     st.session_state['chatbot'] = chatbot
 
 
 if 'chatbot' in st.session_state:
     messages = st.container(height=600)
-    # st.session_state['chatbot'].initializer()
     if st.session_state.chat_history != []:
         for msg in st.session_state.chat_history:
             messages.chat_message(msg['name']).write(msg['text'])
