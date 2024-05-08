@@ -1,8 +1,8 @@
 import os
-import st
 import glob
 import json
 import smtplib
+import streamlit as st
 from smtplib import SMTPException
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
