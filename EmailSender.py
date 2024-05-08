@@ -7,15 +7,18 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
+try:
+    api_key = st.secrets['GMAIL_API_KEY']
+except:
+    with open('api_key.json') as secrets:
+        api_key = json.load(secrets)['GMAIL_API_KEY']
+
 class EmailSender:
     def __init__(self):
         pass
     def send(self):
-        with open('api_key.json', 'r') as file:
-            api_key = json.load(file)
-
         gmail_user = 'volvstang@gmail.com'
-        gmail_pw = api_key['GMAIL_API_KEY']
+        gmail_pw = api_key
 
         mail_from = gmail_user
         mail_to = 'volvstang@gmail.com'
