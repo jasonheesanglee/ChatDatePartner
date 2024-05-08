@@ -21,29 +21,34 @@ left_co, cent_co, last_co = st.columns(3)
 with cent_co:
     st.image(chat_date_img)
 
-st.sidebar.title('내 연인 설정하기')
+st.sidebar.title('대화상대 설정하기')
 user_name = st.sidebar.text_input('이름/닉네임을 입력해주세요')
 partner_name = st.sidebar.text_input('연인의 이름/닉네임을 입력해주세요')
-gender = st.sidebar.selectbox('연인의 성별을 골라주세요.', ['여자', '남자'])
-age = st.sidebar.slider('연인의 나이를 설정해주세요.', 21, 100, value=26)
-domain = st.sidebar.selectbox('연인의 전공을 골라주세요.', ['호텔경영학', '컴퓨터공학', '기계공학', '경제학', '수학'])
+u_gender = st.sidebar.selectbox('본인의 성별을 골라주세요.', ['여자', '남자'])
+p_gender = st.sidebar.selectbox('상대방의 성별을 골라주세요.', ['여자', '남자'])
+friend_type = st.sidebar.text_input('상대방과의 관계를 입력해주세요.', value='연인')
+age = st.sidebar.slider('상대방의 나이를 설정해주세요.', 21, 100, value=26)
+domain = st.sidebar.text_input('상대방의 전공을 입력해주세요.')
 gaebang = sidebar_slider('개방성', value=84.40)
 seongsil = sidebar_slider('성실성', value=92.91)
 woehyang = sidebar_slider('외향성', value=90.43)
 chinhwa = sidebar_slider('친화성', value=88.65)
 singyung = sidebar_slider('신경성', value=63.48)
 
-apply_button = st.sidebar.button('연인과의 챗 시작하기')
+if friend_type:
+    apply_button = st.sidebar.button(f'{friend_type}과의 챗 시작하기')
+
 
 if 'chat_history' not in st.session_state or str(st.session_state.chat_history) == True:
     st.session_state.chat_history = []
+
 if user_name and partner_name and apply_button:
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_key = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
     prompts = Prompts(user_name=user_name, partner_name=partner_name,
-                      sex=gender, age=age, domain=domain,
-                      session_id=session_key, gaebang=gaebang, seongsil=seongsil,
-                      woehyang=woehyang, chinhwa=chinhwa, singyung=singyung
+                      u_gender=u_gender, p_gender=p_gender, friend_type=friend_type,
+                      age=age, domain=domain, session_id=session_key,
+                      gaebang=gaebang, seongsil=seongsil, woehyang=woehyang, chinhwa=chinhwa, singyung=singyung
                       ).get_prompts()
     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
                       session_id=session_key, prompts=prompts, log_file_path=None)
