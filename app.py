@@ -52,11 +52,6 @@ if 'chat_history' not in st.session_state or str(st.session_state.chat_history) 
 #     st.session_state.session_ids = []
 
 if user_name and partner_name and apply_button:
-    if 'chatbot' in st.session_state:
-        del st.session_state['chatbot']
-    if 'chat_history' in st.session_state:
-        del st.session_state.chat_history
-
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_id = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
     # st.session_state.session_ids.append(session_id)
