@@ -41,10 +41,10 @@ class Prompts:
             self.u_syl = ['이', '아', '이는', '을', '이야', '이', '과']  # 희상이는
 
 
-    def gender_translator(gender):
-        if gender == '여자':
+    def gender_translator(self, gender):
+        if '여자' in gender:
             return 'female'
-        elif gender == '남자':
+        elif '남자' in gender:
             return 'male'
 
     def get_traits(self):
