@@ -44,9 +44,9 @@ if user_name and partner_name and apply_button:
                       sex=gender, age=age, domain=domain,
                       session_id=session_key, gaebang=gaebang, seongsil=seongsil,
                       woehyang=woehyang, chinhwa=chinhwa, singyung=singyung
-                      )
+                      ).get_prompts()
     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
-                      session_id=session_key, log_file_path=None)
+                      session_id=session_key, prompts=prompts, log_file_path=None)
     st.session_state['chatbot'] = chatbot
 
 

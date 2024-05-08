@@ -18,12 +18,13 @@ except:
     with open('api_key.json') as secrets:
         COHERE_API_KEY = json.load(secrets)['COHERE_API_KEY']
 
-class ChatBot(Prompts):
+class ChatBot:
     def __init__(self,
                  user_name,
                  partner_name,
                  domain,
                  session_id,
+                 prompts,
                  log_file_path=None
                  ):
 
@@ -33,8 +34,7 @@ class ChatBot(Prompts):
         self.logger = Logger(user_id=f'{user_name}_{partner_name}_{domain}',
                              session_id=session_id,
                              log_file_path=self.log_file_path)
-        system_message = Prompts.get_prompts()
-        self.system_message = system_message + "\n지금 날짜와 시간은 {time}이야"
+        self.system_message = prompts + "\n지금 날짜와 시간은 {time}이야"
 
     def get_chat_history(self):
         history = self.logger.get_log()
