@@ -40,6 +40,11 @@ singyung = sidebar_slider('신경성', value=63.48)
 if friend_type:
     apply_button = st.sidebar.button(f'{friend_type}{f_syl[6]}의 챗 시작하기')
 
+if user_name and partner_name and apply_button:
+    if 'chatbot' in st.session_state:
+        del st.session_state['chatbot']
+    if 'chat_history' in st.session_state:
+        del st.session_state.chat_history
 
 if 'chat_history' not in st.session_state or str(st.session_state.chat_history) == True:
     st.session_state.chat_history = []
