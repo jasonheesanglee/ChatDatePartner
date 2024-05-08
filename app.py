@@ -4,6 +4,7 @@ import streamlit as st
 from Prompts import Prompts
 from ChatBot import ChatBot
 from datetime import datetime
+from han_util_unicode import build_josa
 
 def sidebar_slider(factor, value):
     return st.sidebar.slider(factor, 0.00, 100.00, value=value)
@@ -11,7 +12,7 @@ def sidebar_slider(factor, value):
 st.set_page_config('Chat Date Partner', page_icon='😍')
 
 st.title('Chat Date Partner')
-st.header('개인화된 연인과 대화를 나누어보세요!')
+st.header('개인화된 대화상대와 대화를 나누어보세요!')
 
 chat_date_img = Image.open('chat_gf.png')
 width, height = chat_date_img.size
@@ -27,6 +28,7 @@ partner_name = st.sidebar.text_input('상대방의 이름/닉네임을 입력해
 u_gender = st.sidebar.selectbox('본인의 성별을 골라주세요.', ['여자', '남자'])
 p_gender = st.sidebar.selectbox('상대방의 성별을 골라주세요.', ['여자', '남자'])
 friend_type = st.sidebar.text_input('상대방과의 관계를 입력해주세요.', value='연인')
+f_syl = build_josa(friend_type)
 age = st.sidebar.slider('상대방의 나이를 설정해주세요.', 21, 100, value=26)
 domain = st.sidebar.text_input('상대방의 전공을 입력해주세요.', value='호텔경영학과')
 gaebang = sidebar_slider('개방성', value=84.40)
@@ -36,7 +38,7 @@ chinhwa = sidebar_slider('친화성', value=88.65)
 singyung = sidebar_slider('신경성', value=63.48)
 
 if friend_type:
-    apply_button = st.sidebar.button(f'{friend_type}과의 챗 시작하기')
+    apply_button = st.sidebar.button(f'{friend_type}{f_syl[6]}의 챗 시작하기')
 
 
 if 'chat_history' not in st.session_state or str(st.session_state.chat_history) == True:

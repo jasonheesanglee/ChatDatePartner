@@ -1,4 +1,4 @@
-from han_util_unicode import join_jamos, split_syllables
+from han_util_unicode import join_jamos, split_syllables, build_josa
 
 class Prompts:
     def __init__(self, user_name, partner_name,
@@ -21,25 +21,9 @@ class Prompts:
         self.chinhwa = chinhwa
         self.singyung = singyung
         self.session_id = session_id
-
-
-        if split_syllables(partner_name)[-1] in ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
-                                                 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
-                                                 'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
-                                                 'ㅚ', 'ㅟ', 'ㅢ', 'ㅒ',
-                                                 'ㅖ']:
-            self.p_syl = ['가', '야', '는', '를', '야', '', '와']  # 홍주는
-        else:
-            self.p_syl = ['이', '아', '이는', '을', '이야', '이', '과']  # 희상이는
-        if split_syllables(user_name)[-1] in ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
-                                              'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
-                                              'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
-                                              'ㅚ', 'ㅟ', 'ㅢ', 'ㅒ',
-                                              'ㅖ']:
-            self.u_syl = ['가', '야', '는', '를', '야', '', '와']  # 홍주는
-        else:
-            self.u_syl = ['이', '아', '이는', '을', '이야', '이', '과']  # 희상이는
-
+        self.p_syl = build_josa(partner_name)
+        self.u_syl = build_josa(user_name)
+        self.f_syl = build_josa(friend_type)
 
     def gender_translator(self, gender):
         if '여자' in gender:
@@ -50,6 +34,7 @@ class Prompts:
     def get_traits(self):
         trait = f'''
                 {self.partner_name}{self.p_syl[2]} {self.age}살에 {self.domain}을 전공하고 논문과 잡지를 통해 AI에 관련한 최신 동향을 알고있다.
+                {self.user_name}{self.u_syl[6]} 오래된 {self.friend_type}의 관계이기 때문에 서로를 잘 알고, 이해하고 있다.
                 '''
         return trait
     def get_prompts(self):

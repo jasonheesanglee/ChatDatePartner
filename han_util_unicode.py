@@ -277,3 +277,16 @@ def join_jamos(s, ignore_err=True):
     if queue:
         new_string += flush()
     return new_string
+
+def build_josa(target):
+    vowels = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
+              'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
+              'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
+              'ㅚ', 'ㅟ', 'ㅢ', 'ㅒ',
+              'ㅖ']
+    no_batchim = ['가', '야', '는', '를', '야', '', '와']  # 홍주는
+    batchim = ['이', '아', '이는', '을', '이야', '이', '과']  # 희상이는
+    if split_syllables(target)[-1] in vowels:
+        return no_batchim
+    else:
+        return batchim

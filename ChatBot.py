@@ -8,6 +8,7 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory, RunnablePassthrough
 from langchain_community.chat_message_histories import ChatMessageHistory
 from google.generativeai.types.safety_types import HarmBlockThreshold, HarmCategory
+from han_util_unicode import build_josa
 
 from Logger import Logger
 from Prompts import Prompts
