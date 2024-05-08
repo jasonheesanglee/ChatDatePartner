@@ -16,17 +16,17 @@ from google.generativeai.types.safety_types import HarmBlockThreshold, HarmCateg
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, \
     HumanMessagePromptTemplate, ChatMessagePromptTemplate
 
-# if 'secrets' in st:
-GoogleAIStudio_API_Key = st.secrets['GoogleAIStudio_API']
-# else:
-#     with open('secrets.json') as secrets:
-        # GoogleAIStudio_API_Key = json.load(secrets)['GoogleAIStudio_API']
+try:
+    GoogleAIStudio_API_Key = st.secrets['GoogleAIStudio_API']
+except:
+    with open('api_key.json') as secrets:
+        GoogleAIStudio_API_Key = json.load(secrets)['GoogleAIStudio_API']
 
-# if 'secrets' in st:
-COHERE_API_KEY = st.secrets['COHERE_API_KEY']
-# else:
-#     with open('secrets.json') as secrets:
-#         COHERE_API_KEY = json.load(secrets)['COHERE_API_KEY']
+try:
+    COHERE_API_KEY = st.secrets['COHERE_API_KEY']
+except:
+    with open('api_key.json') as secrets:
+        COHERE_API_KEY = json.load(secrets)['COHERE_API_KEY']
 
 class ChatBot:
     def __init__(self, user_name, partner_name,

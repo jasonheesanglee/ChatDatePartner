@@ -17,9 +17,9 @@ class Logger:
                 with open(self.log_file_path, 'r', encoding='utf-8') as f:
                     logs = json.load(f)
             except json.JSONDecodeError:
-                logs = {}
+                logs = {self.user_id: {self.session_id:[]}}
         else:
-            logs = {}
+            logs = {self.user_id: {self.session_id:[]}}
         return logs
 
     def log_message(self, user_input, chat_output, current_time):
@@ -36,23 +36,22 @@ class Logger:
 
         if self.user_id in logs.keys():
             if self.session_id in logs[self.user_id]:
-                logs[self.user_id][self.session_id].append(
-                    self.log_message(user_input,
-                                     chat_output,
-                                     current_time
-                                     )
-                )
+                logs[self.user_id][self.session_id].append(self.log_message(user_input,
+                                                                            chat_output,
+                                                                            current_time
+                                                                            )
+                                                           )
             else:
-                logs[self.user_id].add({self.session_id : self.log_message(user_input,
-                                                                           chat_output,
-                                                                           current_time
-                                                                           )
-                                        })
+                logs[self.user_id][self.session_id] = self.log_message(user_input,
+                                                                       chat_output,
+                                                                       current_time
+                                                                       )
+
         else:
-            logs[self.user_id] = {self.session_id : self.log_message(user_input,
+            logs[self.user_id] = {self.session_id : [self.log_message(user_input,
                                                                      chat_output,
                                                                      current_time
-                                                                     )}
+                                                                     )]}
 
         with open(self.log_file_path, 'w', encoding='utf-8') as f:
             json.dump(logs, f, ensure_ascii=False, indent=4)
