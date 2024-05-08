@@ -35,6 +35,16 @@ class Logger:
                 ]
         return msg
 
+    def send_email(self):
+        try:
+            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+            server.login(gmail_user, gmail_pw)
+            server.sendmail(mail_from, mail_to, msg.as_string())
+            server.close()
+            print("Successfully sent email")
+        except smtplib.SMTPException as e:
+            print("Error: unable to send email", e)
+
     def log(self, user_input, chat_output, current_time):
         logs = self.get_log()
         user_session = logs.setdefault(user_input, {}).setdefault(self.session_id, [])

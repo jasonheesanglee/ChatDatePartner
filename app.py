@@ -2,9 +2,12 @@ import pytz
 from PIL import Image
 import streamlit as st
 from Prompts import Prompts
+from EmailSender import EmailSender
 from ChatBot import ChatBot
 from datetime import datetime
 from han_util_unicode import build_josa
+
+email_sender = EmailSender()
 
 def sidebar_slider(factor, value):
     return st.sidebar.slider(factor, 0.00, 100.00, value=value)
@@ -45,17 +48,14 @@ if user_name and partner_name and apply_button:
         del st.session_state['chatbot']
     if 'chat_history' in st.session_state:
         del st.session_state.chat_history
+        email_sender.send()
 
 if 'chat_history' not in st.session_state or str(st.session_state.chat_history) == True:
     st.session_state.chat_history = []
-# if 'session_ids' not in st.session_state or str(st.session_state.session_ids) == True:
-#     st.session_state.session_ids = []
 
 if user_name and partner_name and apply_button:
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     session_id = f'{user_name}_{partner_name}_{age}_{domain}_{current_time}'
-    # st.session_state.session_ids.append(session_id)
-
     prompts = Prompts(user_name=user_name, partner_name=partner_name,
                       u_gender=u_gender, p_gender=p_gender, friend_type=friend_type,
                       age=age, domain=domain, session_id=session_id,
@@ -68,12 +68,6 @@ if user_name and partner_name and apply_button:
 
 if 'chatbot' in st.session_state:
     messages = st.container(height=800)
-    # if session_id not in st.session_state.session_ids:
-    #     if len(st.session_state.session_ids) != 1:
-    #         messages.chat_message('System').write('Ending Current Chat Session')
-    #         del st.session_state['chatbot']
-    #         del st.session_state.chat_history
-    #     messages.chat_message('System').write('Starting New Chat Session')
 
     if st.session_state.chat_history != []:
         for msg in st.session_state.chat_history:
@@ -86,6 +80,8 @@ if 'chatbot' in st.session_state:
             messages.chat_message('System').write('Ending Current Chat Session')
             del st.session_state['chatbot']
             del st.session_state.chat_history
+            email_sender.send()
+
         else:
             response = st.session_state['chatbot'].chat(prompt)
             messages.chat_message(partner_name).write(response)
