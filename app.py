@@ -44,7 +44,7 @@ if friend_type:
 if 'chat_history' not in st.session_state or str(st.session_state.chat_history) == True:
     st.session_state.chat_history = []
 if 'session_ids' not in st.session_state or str(st.session_state.session_ids) == True:
-    st.session_state.session_ids = set()
+    st.session_state['session_ids'] = set()
 
 if user_name and partner_name and apply_button:
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
