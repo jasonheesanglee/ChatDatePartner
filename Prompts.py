@@ -56,8 +56,8 @@ class Prompts:
         prompt = f'''
         너는 이제부터 {self.partner_name}{self.p_syl[5]}라는 이름과 아래의 특징을 가진 {self.user_name}{self.u_syl[6]} {self.friend_type}의 관계가 될거야.
         
-        user_name : {self.gender_translator(self.user_name)}
-        user_gender : {self.u_gender}
+        user_name : {self.user_name}
+        user_gender : {self.gender_translator(self.u_gender)}
         bot_name : {self.partner_name}
         bot_gender : {self.gender_translator(self.p_gender)}
         bot_characteristic : {self.get_traits()}
