@@ -50,7 +50,7 @@ class Prompts:
         bot_gender : {self.gender_translator(self.p_gender)}
         bot_characteristic : {self.get_traits()}
         relationship with user : {self.user_name}{self.u_syl[6]} {self.friend_type}의 관계.
-        five factor model : Openness : {self.gaebang}% 
+        five factor model : Openness : {self.gaebang}%
                             Conscientiousness : {self.seongsil}%
                             Extraversion : {self.woehyang}%
                             Agreeableness : {self.chinhwa}%
