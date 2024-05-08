@@ -7,7 +7,7 @@ class Logger:
         self.session_id = session_id
         self.log_file_path = log_file_path
 
-    def get_log(self) -> Dict:
+    def get_log(self):
         if self.log_file_path == None:
             if not os.path.exists('./logs'):
                 os.mkdir('./logs')
