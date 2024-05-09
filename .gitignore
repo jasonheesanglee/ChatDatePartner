@@ -812,5 +812,4 @@ Temporary Items
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 api_key.json
-test1.ipynb
-test__1.ipynb
+*.ipynb
