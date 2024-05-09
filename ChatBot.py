@@ -38,6 +38,10 @@ class ChatBot:
         self.system_message = prompts + "\n지금 날짜와 시간은 {time}이야"
 
     def get_chat_history(self):
+        '''
+        Get saved logs from json file.
+        :return:
+        '''
         history = self.logger.get_log()
         chat_history = []
         if self.session_id in history:
@@ -48,6 +52,11 @@ class ChatBot:
         return chat_history
 
     def chat(self, user_input):  ## Cohere
+        '''
+        Chat a user with given input using Cohere Api.
+        :param user_input: user chat to chatbot -> str
+        :return: chat message
+        '''
         current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
         response = self.co.chat(
             chat_history=self.get_chat_history(),

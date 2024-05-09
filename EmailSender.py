@@ -17,7 +17,11 @@ except:
 class EmailSender:
     def __init__(self):
         pass
-    def send(self):
+    def send(self) -> None:
+        '''
+        Sends email
+        :return: None
+        '''
         gmail_user = 'volvstang@gmail.com'
         gmail_pw = api_key
 

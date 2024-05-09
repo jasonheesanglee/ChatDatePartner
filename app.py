@@ -2,7 +2,7 @@ import pytz
 from PIL import Image
 import streamlit as st
 from Prompts import Prompts
-# from EmailSender import EmailSender
+from EmailSender import EmailSender
 from ChatBot import ChatBot
 from datetime import datetime
 from han_util_unicode import build_josa
@@ -48,7 +48,7 @@ if user_name and partner_name and apply_button:
         del st.session_state['chatbot']
     if 'chat_history' in st.session_state:
         del st.session_state.chat_history
-        # email_sender.send()
+        email_sender.send()
 
 if 'chat_history' not in st.session_state or str(st.session_state.chat_history) == True:
     st.session_state.chat_history = []
@@ -80,7 +80,7 @@ if 'chatbot' in st.session_state:
             messages.chat_message('System').write('Ending Current Chat Session')
             del st.session_state['chatbot']
             del st.session_state.chat_history
-            # email_sender.send()
+            email_sender.send()
 
         else:
             response = st.session_state['chatbot'].chat(prompt)

@@ -7,13 +7,24 @@ class Logger:
         self.session_id = session_id
         self.log_file_path = log_file_path
 
-    def alter_dir(self):
+    def alter_dir(self) -> None:
+        '''
+        Checks if the logs directory exists.
+        Creates logs directory if it doesn't.
+        :return: None
+        '''
+
         if self.log_file_path == None:
             if not os.path.exists('./logs'):
                 os.mkdir('./logs')
             self.log_file_path = f'./logs/{self.user_id}.json'
 
-    def get_log(self):
+    def get_log(self) -> dict:
+        '''
+        Reads the logs file and returns it.
+        If the log file doesn't exist or is empty, create the base template and return it.
+        :return: history of the chat -> dict
+        '''
         self.alter_dir()
         base_template =  {self.user_id: {self.session_id:[]}}
 
@@ -27,7 +38,15 @@ class Logger:
             logs = base_template
         return logs
 
-    def log_message(self, user_input, chat_output, current_time):
+    def log_message(self, user_input:str, chat_output:str, current_time:str) -> list:
+        '''
+        Place the chat history in a format per iteration so that Cohere models can recognize it.
+
+        :param user_input: user_input -> string
+        :param chat_output: chat_output -> string
+        :param current_time: current_time -> string
+        :return: list of chat history -> list
+        '''
         msg = [
                     {'role':'USER', 'message': user_input},
                     {'role':'CHATBOT', 'message': chat_output},
@@ -35,17 +54,14 @@ class Logger:
                 ]
         return msg
 
-    def send_email(self):
-        try:
-            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.login(gmail_user, gmail_pw)
-            server.sendmail(mail_from, mail_to, msg.as_string())
-            server.close()
-            print("Successfully sent email")
-        except smtplib.SMTPException as e:
-            print("Error: unable to send email", e)
-
-    def log(self, user_input, chat_output, current_time):
+    def log(self, user_input, chat_output, current_time) -> None:
+        '''
+        Logs the chat history to the logs file.
+        :param user_input: user_input -> string
+        :param chat_output: chat_output -> string
+        :param current_time: current_time -> string
+        :return: None
+        '''
         logs = self.get_log()
         user_session = logs.setdefault(user_input, {}).setdefault(self.session_id, [])
         if self.user_id in logs.keys():

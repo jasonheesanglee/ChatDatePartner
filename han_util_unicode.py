@@ -278,7 +278,13 @@ def join_jamos(s, ignore_err=True):
         new_string += flush()
     return new_string
 
-def build_josa(target):
+def build_josa(target:str) -> list:
+    '''
+    Build a josa matching preceding string.
+
+    :param target: preceding word that comes before josa.
+    :return: list of matching josa -> list
+    '''
     vowels = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ',
               'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ',
               'ㅡ', 'ㅣ', 'ㅙ', 'ㅞ',
