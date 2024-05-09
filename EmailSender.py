@@ -1,7 +1,9 @@
 import os
 import glob
+import pytz
 import json
 import smtplib
+import datetime
 import streamlit as st
 from smtplib import SMTPException
 from email.mime.multipart import MIMEMultipart
@@ -30,13 +32,15 @@ class EmailSender:
         Sends email
         :return: None
         '''
+        current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
+
         gmail_user = 'volvstang@gmail.com'
         gmail_pw = api_key
 
         mail_from = gmail_user
         mail_to = 'volvstang@gmail.com'
 
-        mail_subject = f'chat_logs'
+        mail_subject = f'chat_logs_{current_time}'
         mail_message_body = f'Check the attachments'
 
         msg = MIMEMultipart()
