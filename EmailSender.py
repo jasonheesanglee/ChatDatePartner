@@ -3,8 +3,8 @@ import glob
 import pytz
 import json
 import smtplib
-import datetime
 import streamlit as st
+from datetime import datetime
 from smtplib import SMTPException
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
