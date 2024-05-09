@@ -1,5 +1,4 @@
 pytz
-email
 cohere
 streamlit
 langchain
