@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
 try:
-    api_key = st.secrets['GMAIL_API_KEY']
+    api_key = ' '.join(st.secrets['GMAIL_API_KEY'][::4])
 except:
     with open('api_key.json') as secrets:
         api_key = json.load(secrets)['GMAIL_API_KEY']
