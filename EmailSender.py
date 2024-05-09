@@ -53,7 +53,9 @@ class EmailSender:
                 with open(file, 'r') as f:
                     attach = MIMEApplication(f.read(),_subtype='json')
                     filename = os.path.basename(file)
-                    attach.add_header('Content-Disposition','attachment',filename=filename)
+                    attach.add_header('Content-Disposition','attachment',
+                                      filename=filename, encoding='utf-8',
+                                      )
                     msg.attach(attach)
 
         try:
