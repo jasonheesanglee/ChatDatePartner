@@ -18,6 +18,7 @@ try:
 except:
     with open('api_key.json') as secrets:
         COHERE_API_KEY = json.load(secrets)['COHERE_API_KEY']
+# why
 
 class ChatBot:
     def __init__(self,
