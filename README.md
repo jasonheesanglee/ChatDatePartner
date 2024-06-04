@@ -11,7 +11,7 @@ We started this project by developing a dating simulator using a chatbot to solv
 The project started as `ChatGirlFriend` but during the planning and development process, we realized that there would also be female users, so we changed it to `ChatDatePartner`<br><br>
 Currently, the IDs such as `user_id`, `session_id` are manually generated.<br>
 The IDs will be replaced by the actual `user_ids` and `session_ids`, etc.<br><br>
-Please [click here](https://chatgirlfriend-m8qdm9oyohhple4cytdf8p.streamlit.app) to check out the prototype!
+Please [click here](https://chatdatepartner.streamlit.app/) to check out the prototype!
 
 Here is the example page of ChatDateParnter on `Streamlit`<br>
 <p align='center'>
