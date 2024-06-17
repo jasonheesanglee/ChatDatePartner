@@ -54,19 +54,22 @@ class Logger:
         :param current_time: current_time -> string
         :return: None
         '''
-        logs = self.get_log()
-        new_log_entry = self.log_message(user_input, chat_output, current_time)
-        if self.user_id in logs:
-            if self.session_id in logs[self.user_id]:
-                logs[self.user_id][self.session_id].extend(new_log_entry)
+        try:
+            logs = self.get_log()
+            new_log_entry = self.log_message(user_input, chat_output, current_time)
+            if self.user_id in logs:
+                if self.session_id in logs[self.user_id]:
+                    logs[self.user_id][self.session_id].extend(new_log_entry)
+                else:
+                    logs[self.user_id][self.session_id] = new_log_entry
             else:
-                logs[self.user_id][self.session_id] = new_log_entry
-        else:
-            logs[self.user_id] = {self.session_id: new_log_entry}
-            
-        os.makedirs(os.path.dirname(self.log_file_path), exist_ok=True)
-        with open(self.log_file_path, 'w', encoding='utf-8') as f:
-            json.dump(logs, f, ensure_ascii=False, indent=4)
+                logs[self.user_id] = {self.session_id: new_log_entry}
+
+            os.makedirs(os.path.dirname(self.log_file_path), exist_ok=True)
+            with open(self.log_file_path, 'w', encoding='utf-8') as f:
+                json.dump(logs, f, ensure_ascii=False, indent=4)
+        except Exception as e:
+            print(f"Error logging message: {e}")
 
 if __name__ == "__main__":
     logger = Logger(user_id='temp_user', session_id='temp_session')
