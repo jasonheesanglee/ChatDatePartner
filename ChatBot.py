@@ -38,7 +38,7 @@ class ChatBot:
                              session_id=session_id,
                              log_file_path=self.log_file_path)
         
-        self.logger.log(user_input=prompts, chat_output="", current_time=current_time)
+        self.logger.log(user_input=prompts, chat_output=None, current_time=current_time)
         self.messages = self.logger.get_formatted_log()
 
         self.system_message = SystemMessage(content="System : current date and time is {time}")

@@ -41,12 +41,13 @@ class Logger:
         :param current_time: current_time -> string
         :return: list of chat history -> list
         '''
-        msg = [
-            {"type": "human", "content": user_input},
-            {"type": "ai", "content": chat_output},
-            {"type": "system", "content": f'Current Time : {current_time}'}
-                ]
-        return msg
+        messages = []
+        if user_input:
+            messages.append({"type": "human", "content": user_input})
+        if chat_output:
+            messages.append({"type": "ai", "content": chat_output})
+        messages.append({"type": "system", "content": f'Current Time : {current_time}'})
+        return messages
 
     def log(self, user_input, chat_output, current_time) -> None:
         '''
