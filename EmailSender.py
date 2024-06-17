@@ -21,7 +21,7 @@ try:
     api_key = api_key.strip()
 
 except:
-    with open('api_key.json') as secrets:
+    with open('config.json') as secrets:
         api_key = json.load(secrets)['GMAIL_API_KEY']
 
 class EmailSender:

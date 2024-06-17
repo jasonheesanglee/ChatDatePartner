@@ -62,7 +62,7 @@ if user_name and partner_name and apply_button:
                       gaebang=gaebang, seongsil=seongsil, woehyang=woehyang, chinhwa=chinhwa, singyung=singyung
                       ).get_prompts()
     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
-                      session_id=session_id, prompts=prompts, log_file_path=None)
+                      session_id=session_id, prompts=prompts, log_file_path=None, mode='chatgpt')
     st.session_state['chatbot'] = chatbot
 
 

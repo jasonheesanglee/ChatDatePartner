@@ -57,6 +57,7 @@ class Logger:
     def log(self, user_input, chat_output, current_time) -> None:
         '''
         Logs the chat history to the logs file.
+        
         :param user_input: user_input -> string
         :param chat_output: chat_output -> string
         :param current_time: current_time -> string

@@ -2,15 +2,26 @@ import json
 import pytz
 import cohere
 import streamlit as st
+from langchain_cohere import ChatCohere
+from langchain_openai import ChatOpenAI
 from datetime import datetime
 from Logger import Logger
 
 try:
     COHERE_API_KEY = st.secrets['COHERE_API_KEY']
+    OPENAI_API_KEY = st.secrets['OPENAI_API_KEY']
 except:
-    with open('api_key.json') as secrets:
-        COHERE_API_KEY = json.load(secrets)['COHERE_API_KEY']
-# why
+    with open('config.json') as secrets:
+        config = json.load(secrets)
+COHERE_API_KEY = config['COHERE_API_KEY']
+OPENAI_API_KEY = config['OPENAI_API_KEY']
+
+cfg = {
+    'cohere_api_key': COHERE_API_KEY,
+    'openai_api_key' : OPENAI_API_KEY,
+    'chromadb_dir' : ''
+}
+
 
 class ChatBot:
     def __init__(self,
@@ -19,16 +30,37 @@ class ChatBot:
                  domain,
                  session_id,
                  prompts,
-                 log_file_path=None
+                 log_file_path=None,
+                 mode='cohere'
                  ):
 
         self.session_id = session_id
-        self.co = cohere.Client(api_key=COHERE_API_KEY)
+        self.mode=mode
+        self._initialize_llm()
+
         self.log_file_path = log_file_path
         self.logger = Logger(user_id=f'{user_name}_{partner_name}_{domain}',
                              session_id=session_id,
                              log_file_path=self.log_file_path)
-        self.system_message = prompts + "\n지금 날짜와 시간은 {time}이야"
+        self.system_message = prompts + "\nSystem : current date and time is {time}"
+
+    def _initialize_llm(self) -> None:
+        """
+        선택된 모드에 따라 언어 모델을 초기화합니다.
+        """
+        if self.mode == 'cohere':
+            self.model = 'command-r-plus'
+            api_key = cfg['cohere_api_key']
+            self.llm = ChatCohere(cohere_api_key=api_key, model=self.model)            
+        
+        elif self.mode == 'chatgpt': 
+            self.model_name = 'gpt-4o'
+            api_key = cfg['openai_api_key']
+            self.llm = ChatOpenAI(api_key=api_key, model=self.model)
+
+        else:
+            raise KeyError('\'mode\' should be either "chatgpt" or "cohere"')
+        
 
     def get_chat_history(self):
         '''
@@ -51,15 +83,23 @@ class ChatBot:
         :return: chat message
         '''
         current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
-        response = self.co.chat(
-            chat_history=self.get_chat_history(),
-            preamble=self.system_message.replace('{time}', current_time),
-            message=user_input,
-            connectors=[{"id": "web-search"}],
-        ).text
+
+        if self.mode=='cohere':
+            response = self.llm.chat(
+                chat_history=self.get_chat_history(),
+                preamble=self.system_message.replace('{time}', current_time),
+                message=user_input,
+                connectors=[{"id": "web-search"}],
+            ).text
+        elif self.mode=='chatgpt':
+            prompt = '\n'.join(self.get_chat_history()) + user_input
+            prompt = prompt + f"\n{self.system_message.replace('{time}', current_time)}"
+            response = self.llm.invoke(message=prompt)['content']
+
 
         self.logger.log(user_input=user_input,
                         chat_output=response,
                         current_time=current_time
                         )
         return response
+    
