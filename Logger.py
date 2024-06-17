@@ -1,5 +1,7 @@
 import os
 import json
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
 
 class Logger:
     def __init__(self, user_id, session_id, log_file_path=None):
@@ -10,6 +12,7 @@ class Logger:
                 os.mkdir('./logs')
             self.log_file_path = f'./logs/{self.user_id}.json'
         self.log_file_path = log_file_path
+        
 
     def get_log(self) -> dict:
         '''
@@ -36,9 +39,9 @@ class Logger:
         :return: list of chat history -> list
         '''
         msg = [
-                    {'role':'USER', 'message': user_input},
-                    {'role':'CHATBOT', 'message': chat_output},
-                    {'role':'SYSTEM','current_time':current_time}
+                    HumanMessage(content=user_input),
+                    AIMessage(content=chat_output),
+                    SystemMessage(content=f'Current Time : {current_time}')
                 ]
         return msg
 
@@ -55,11 +58,12 @@ class Logger:
         # user_session = logs.setdefault(user_input, {}).setdefault(self.session_id, [])
         if self.user_id in logs.keys():
             if self.session_id in logs[self.user_id]:
-                logs[self.user_id][self.session_id].append(self.log_message(user_input,
-                                                                            chat_output,
-                                                                            current_time
-                                                                            )
-                                                           )
+                logs[self.user_id][self.session_id].append(
+                    self.log_message(user_input,
+                                     chat_output,
+                                     current_time
+                                     )
+                                     )
             else:
                 logs[self.user_id][self.session_id] = self.log_message(user_input,
                                                                        chat_output,
