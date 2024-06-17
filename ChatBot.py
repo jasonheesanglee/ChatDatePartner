@@ -55,7 +55,7 @@ class ChatBot:
             self.llm = ChatCohere(cohere_api_key=api_key, model=self.model)            
         
         elif self.mode == 'chatgpt': 
-            self.model_name = 'gpt-4o'
+            self.model = 'gpt-4o'
             api_key = cfg['openai_api_key']
             self.llm = ChatOpenAI(api_key=api_key, model=self.model)
 
