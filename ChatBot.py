@@ -11,11 +11,14 @@ from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
 try:
     config = st.secrets
-except:
+    os.environ['COHERE_API_KEY'] = config['COHERE_API_KEY']
+    os.environ['OPENAI_API_KEY'] = config['OPENAI_API_KEY']
+
+except FileNotFoundError:
     with open('./config.json', 'r') as secrets:
         config = json.load(secrets)
-os.environ['COHERE_API_KEY'] = config['COHERE_API_KEY']
-os.environ['OPENAI_API_KEY'] = config['OPENAI_API_KEY']
+    os.environ['COHERE_API_KEY'] = config['COHERE_API_KEY']
+    os.environ['OPENAI_API_KEY'] = config['OPENAI_API_KEY']
 
 class ChatBot:
     def __init__(self,
@@ -89,3 +92,18 @@ class ChatBot:
                         )
         return response
     
+# if __name__ == "__main__":
+#     user_name = "user"
+#     partner_name = "partner"
+#     domain = "domain"
+#     session_id = "session_id"
+#     prompts = "Your prompts here"
+#     log_file_path = None
+#     mode = "chatgpt"
+
+#     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
+#                       session_id=session_id, prompts=prompts, log_file_path=log_file_path, mode=mode)
+#     prompt = "Hello, how are you?"
+#     response = chatbot.chat(prompt)
+#     print(response)
+
