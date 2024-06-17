@@ -814,3 +814,4 @@ Temporary Items
 api_key.json
 *.json
 *.ipynb
+nvc_docs/*
