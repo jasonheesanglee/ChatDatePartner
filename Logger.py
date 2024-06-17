@@ -52,7 +52,7 @@ class Logger:
         :return: None
         '''
         logs = self.get_log()
-        user_session = logs.setdefault(user_input, {}).setdefault(self.session_id, [])
+        # user_session = logs.setdefault(user_input, {}).setdefault(self.session_id, [])
         if self.user_id in logs.keys():
             if self.session_id in logs[self.user_id]:
                 logs[self.user_id][self.session_id].append(self.log_message(user_input,
