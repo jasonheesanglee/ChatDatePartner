@@ -1,5 +1,7 @@
 import os
 import json
+import pytz
+from datetime import datetime
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 
@@ -11,7 +13,8 @@ class Logger:
             if not os.path.exists('./logs'):
                 os.mkdir('./logs')
             self.log_file_path = f'./logs/{self.user_id}.json'
-        self.log_file_path = log_file_path
+        else:
+            self.log_file_path = log_file_path
         
 
     def get_log(self) -> dict:
@@ -72,6 +75,9 @@ class Logger:
             print(f"Error logging message: {e}")
 
 if __name__ == "__main__":
+    current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
     logger = Logger(user_id='temp_user', session_id='temp_session')
+    logger.log(user_input="temptemp", chat_output="temp_output", current_time =current_time)
     logs = logger.get_log()
+
     print(logs)
