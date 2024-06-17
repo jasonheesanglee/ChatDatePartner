@@ -75,7 +75,7 @@ class Logger:
                                                                      chat_output,
                                                                      current_time
                                                                      )]}
-
+        os.makedirs(os.path.dirname(self.log_file_path), exist_ok=True)
         with open(self.log_file_path, 'w', encoding='utf-8') as f:
             json.dump(logs, f, ensure_ascii=False, indent=4)
 
