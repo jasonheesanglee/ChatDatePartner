@@ -74,10 +74,10 @@ class Logger:
         except Exception as e:
             print(f"Error logging message: {e}")
 
-if __name__ == "__main__":
-    current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
-    logger = Logger(user_id='temp_user', session_id='temp_session')
-    logger.log(user_input="temptemp", chat_output="temp_output", current_time =current_time)
-    logs = logger.get_log()
+# if __name__ == "__main__":
+#     current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
+#     logger = Logger(user_id='temp_user', session_id='temp_session')
+#     logger.log(user_input="temptemp", chat_output="temp_output", current_time =current_time)
+#     logs = logger.get_log()
 
-    print(logs)
+#     print(logs)
