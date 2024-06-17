@@ -37,11 +37,18 @@ class ChatBot:
 
         self.log_file_path = log_file_path
         user_id = f'{user_name}_{partner_name}_{domain}'
-        self.logger = Logger(user_id=user_id,
-                             session_id=session_id,
-                             log_file_path=self.log_file_path)
+        self.logger = Logger(
+            user_id=user_id,
+            session_id=session_id,
+            log_file_path=self.log_file_path
+            )
         
-        self.logger.log(user_input=prompts, chat_output=None, current_time=current_time)
+        self.logger.log(
+            user_input=prompts, 
+            chat_output=None, 
+            current_time=current_time
+            )
+        
         self.messages = self.logger.get_formatted_log()
 
         self.system_message = SystemMessage(content="System : current date and time is {time}")
@@ -92,18 +99,18 @@ class ChatBot:
                         )
         return response
     
-# if __name__ == "__main__":
-#     user_name = "user"
-#     partner_name = "partner"
-#     domain = "domain"
-#     session_id = "session_id"
-#     prompts = "Your prompts here"
-#     log_file_path = None
-#     mode = "chatgpt"
+if __name__ == "__main__":
+    user_name = "user"
+    partner_name = "partner"
+    domain = "domain"
+    session_id = "session_id"
+    prompts = "Your prompts here"
+    log_file_path = None
+    mode = "chatgpt"
 
-#     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
-#                       session_id=session_id, prompts=prompts, log_file_path=log_file_path, mode=mode)
-#     prompt = "Hello, how are you?"
-#     response = chatbot.chat(prompt)
-#     print(response)
+    chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
+                      session_id=session_id, prompts=prompts, log_file_path=log_file_path, mode=mode)
+    prompt = "Hello, how are you?"
+    response = chatbot.chat(prompt)
+    print(response)
 
