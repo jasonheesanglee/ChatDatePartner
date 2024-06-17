@@ -82,7 +82,7 @@ if 'chatbot' in st.session_state:
     messages = st.container(height=800)
 
     if st.session_state.chat_history != []:
-        for msg in st.session_state.chat_history:
+        for msg in st.session_state.chat_history[1:]:
             messages.chat_message(msg['name']).write(msg['text'])
 
     if prompt := st.chat_input('메시지를 입력해주세요 : '):
