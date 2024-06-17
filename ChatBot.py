@@ -8,10 +8,11 @@ from datetime import datetime
 from Logger import Logger
 
 try:
-    COHERE_API_KEY = st.secrets['COHERE_API_KEY']
-    OPENAI_API_KEY = st.secrets['OPENAI_API_KEY']
+    config = st.secrets
+    # COHERE_API_KEY = st.secrets['COHERE_API_KEY']
+    # OPENAI_API_KEY = st.secrets['OPENAI_API_KEY']
 except:
-    with open('config.json') as secrets:
+    with open('./config.json', 'r') as secrets:
         config = json.load(secrets)
 COHERE_API_KEY = config['COHERE_API_KEY']
 OPENAI_API_KEY = config['OPENAI_API_KEY']
