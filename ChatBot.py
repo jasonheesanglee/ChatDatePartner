@@ -38,7 +38,8 @@ class ChatBot:
         self.logger = Logger(user_id=user_id,
                              session_id=session_id,
                              log_file_path=self.log_file_path)
-        self.messages = self.logger.get_log()[user_id][session_id] # []
+        messages = self.logger.get_log() # []
+        self.messages = messages[user_id][session_id]
 
         self.system_message = SystemMessage(content="System : current date and time is {time}")
         self.messages.append(self.system_message)
