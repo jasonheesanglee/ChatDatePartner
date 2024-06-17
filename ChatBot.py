@@ -83,7 +83,7 @@ class ChatBot:
         current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
         user_input = HumanMessage(content=user_input)
         self.messages.append(user_input)
-        chain = ChatPromptTemplate(self.messages) | self.llm
+        chain = ChatPromptTemplate.from_messages(self.messages) | self.llm
 
         if self.mode=='cohere':
             response = chain.invoke({'time':current_time}).content
