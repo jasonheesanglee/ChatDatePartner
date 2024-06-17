@@ -82,7 +82,7 @@ class Logger:
         '''
         logs = self.get_log()
         formatted_logs = []
-        for entry in logs.get(self.user_id, {}).get(self.session_id, []):
+        for entry in logs.get(self.user_id).get(self.session_id):
             if entry['type'] == 'human':
                 formatted_logs.append(HumanMessage(content=entry['content']))
             elif entry['type'] == 'ai':
