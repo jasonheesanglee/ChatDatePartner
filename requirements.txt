@@ -1,7 +1,10 @@
 pytz
 cohere
+tiktoken
 streamlit
 langchain
 langchain-core
+langchian-cohere
+langchain-openai
 langchain-community
 langchain-google-genai
