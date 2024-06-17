@@ -25,6 +25,11 @@ left_co, cent_co, last_co = st.columns(3)
 with cent_co:
     st.image(chat_date_img)
 
+
+###################################################
+##################### SideBar #####################
+###################################################
+
 st.sidebar.title('대화상대 설정하기')
 user_name = st.sidebar.text_input('본인의 이름/닉네임을 입력해주세요')
 partner_name = st.sidebar.text_input('상대방의 이름/닉네임을 입력해주세요')
@@ -61,8 +66,15 @@ if user_name and partner_name and apply_button:
                       age=age, domain=domain, session_id=session_id,
                       gaebang=gaebang, seongsil=seongsil, woehyang=woehyang, chinhwa=chinhwa, singyung=singyung
                       ).get_prompts()
+    st.session_state.chat_history.append(
+        {
+            'name': "System",
+            'text': prompts,
+            'text_time': str(datetime.now(tz=pytz.timezone('Asia/Seoul')).strftime('%Y%m%d%H%M%S'))}
+    )
+
     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
-                      session_id=session_id, prompts=prompts, log_file_path=None, mode='cohere')
+                      session_id=session_id, prompts=st.session_state.chat_history[0], log_file_path=None, mode='cohere')
     st.session_state['chatbot'] = chatbot
 
 

@@ -1,28 +1,22 @@
+import os
 import json
 import pytz
-# import cohere
+import cohere
 import streamlit as st
 from langchain_cohere import ChatCohere
 from langchain_openai import ChatOpenAI
 from datetime import datetime
 from Logger import Logger
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 try:
     config = st.secrets
-    # COHERE_API_KEY = st.secrets['COHERE_API_KEY']
-    # OPENAI_API_KEY = st.secrets['OPENAI_API_KEY']
 except:
     with open('./config.json', 'r') as secrets:
         config = json.load(secrets)
-COHERE_API_KEY = config['COHERE_API_KEY']
-OPENAI_API_KEY = config['OPENAI_API_KEY']
-
-cfg = {
-    'cohere_api_key': COHERE_API_KEY,
-    'openai_api_key' : OPENAI_API_KEY,
-    'chromadb_dir' : ''
-}
-
+os.environ['COHERE_API_KEY'] = config['COHERE_API_KEY']
+os.environ['OPENAI_API_KEY'] = config['OPENAI_API_KEY']
 
 class ChatBot:
     def __init__(self,
@@ -43,7 +37,11 @@ class ChatBot:
         self.logger = Logger(user_id=f'{user_name}_{partner_name}_{domain}',
                              session_id=session_id,
                              log_file_path=self.log_file_path)
-        self.system_message = prompts + "\nSystem : current date and time is {time}"
+        self.messages = self.logger.get_log()[f'{user_name}_{partner_name}_{domain}'][session_id] # []
+
+        self.system_message = SystemMessage(content=prompts + "\nSystem : current date and time is {time}")
+        self.messages.append(self.system_message)
+        self.prompt = ChatPromptTemplate.from_messages(self.messages)
 
     def _initialize_llm(self) -> None:
         """
@@ -51,13 +49,11 @@ class ChatBot:
         """
         if self.mode == 'cohere':
             model = 'command-r-plus'
-            api_key = cfg['cohere_api_key']
-            self.llm = ChatCohere(cohere_api_key=api_key, model=model)            
+            self.llm = ChatCohere(model=model)            
         
         elif self.mode == 'chatgpt': 
             model = 'gpt-4o'
-            api_key = cfg['openai_api_key']
-            self.llm = ChatOpenAI(api_key=api_key, model=model)
+            self.llm = ChatOpenAI(model=model)
 
         else:
             raise KeyError('\'mode\' should be either "chatgpt" or "cohere"')
@@ -84,19 +80,16 @@ class ChatBot:
         :return: chat message
         '''
         current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
+        user_input = HumanMessage(content=user_input)
+        self.propmt.append(user_input)
+        chain = self.propmt | self.llm
 
         if self.mode=='cohere':
-            response = self.llm.chat(
-                chat_history=self.get_chat_history(),
-                preamble=self.system_message.replace('{time}', current_time),
-                message=user_input,
-                connectors=[{"id": "web-search"}],
-            ).text
+            response = chain.invoke({'time':current_time}).content
         elif self.mode=='chatgpt':
-            prompt = '\n'.join(self.get_chat_history()) + user_input
-            prompt = prompt + f"\n{self.system_message.replace('{time}', current_time)}"
-            response = self.llm.invoke(prompt).content
+            response = chain.invoke({'time':current_time}).content
 
+        self.prompt.append(AIMessage(content=response))
 
         self.logger.log(user_input=user_input,
                         chat_output=response,
