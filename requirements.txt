@@ -4,7 +4,7 @@ tiktoken
 streamlit
 langchain
 langchain-core
-langchian-cohere
+langchain-cohere
 langchain-openai
 langchain-community
 langchain-google-genai
