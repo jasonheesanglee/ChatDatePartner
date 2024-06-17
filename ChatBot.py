@@ -34,10 +34,11 @@ class ChatBot:
         self._initialize_llm()
 
         self.log_file_path = log_file_path
-        self.logger = Logger(user_id=f'{user_name}_{partner_name}_{domain}',
+        user_id = f'{user_name}_{partner_name}_{domain}'
+        self.logger = Logger(user_id=user_id,
                              session_id=session_id,
                              log_file_path=self.log_file_path)
-        self.messages = self.logger.get_log()[f'{user_name}_{partner_name}_{domain}'][session_id] # []
+        self.messages = self.logger.get_log()[user_id][session_id] # []
 
         self.system_message = SystemMessage(content=prompts + "\nSystem : current date and time is {time}")
         self.messages.append(self.system_message)
