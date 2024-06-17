@@ -79,14 +79,11 @@ class ChatBot:
         self.messages.append(user_input)
         chain = ChatPromptTemplate.from_messages(self.messages) | self.llm
 
-        if self.mode=='cohere':
-            response = chain.invoke({'time':current_time}).content
-        elif self.mode=='chatgpt':
-            response = chain.invoke({'time':current_time}).content
+        response = chain.invoke({'time': current_time}).content
 
-        self.prompt.append(AIMessage(content=response))
+        self.messages.append(AIMessage(content=response))
 
-        self.logger.log(user_input=user_input,
+        self.logger.log(user_input=user_input.content,
                         chat_output=response,
                         current_time=current_time
                         )
