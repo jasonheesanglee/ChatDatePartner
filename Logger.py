@@ -5,19 +5,11 @@ class Logger:
     def __init__(self, user_id, session_id, log_file_path=None):
         self.user_id = user_id
         self.session_id = session_id
-        self.log_file_path = log_file_path
-
-    def alter_dir(self) -> None:
-        '''
-        Checks if the logs directory exists.
-        Creates logs directory if it doesn't.
-        :return: None
-        '''
-
-        if self.log_file_path == None:
+        if not log_file_path:
             if not os.path.exists('./logs'):
                 os.mkdir('./logs')
             self.log_file_path = f'./logs/{self.user_id}.json'
+        self.log_file_path = log_file_path
 
     def get_log(self) -> dict:
         '''
@@ -25,16 +17,12 @@ class Logger:
         If the log file doesn't exist or is empty, create the base template and return it.
         :return: history of the chat -> dict
         '''
-        self.alter_dir()
         base_template =  {self.user_id: {self.session_id:[]}}
 
-        if os.path.exists(self.log_file_path):
-            try:
-                with open(self.log_file_path, 'r', encoding='utf-8') as f:
-                    logs = json.load(f)
-            except json.JSONDecodeError:
-                logs = base_template
-        else:
+        try:
+            with open(self.log_file_path, 'r', encoding='utf-8') as f:
+                logs = json.load(f)
+        except (json.JSONDecodeError, TypeError):
             logs = base_template
         return logs
 
@@ -87,4 +75,7 @@ class Logger:
         with open(self.log_file_path, 'w', encoding='utf-8') as f:
             json.dump(logs, f, ensure_ascii=False, indent=4)
 
-
+if __name__ == "__main__":
+    logger = Logger(user_id='temp_user', session_id='temp_session')
+    logs = logger.get_log()
+    print(logs)
