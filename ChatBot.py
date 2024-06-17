@@ -1,7 +1,6 @@
 import os
 import json
 import pytz
-import cohere
 import streamlit as st
 from langchain_cohere import ChatCohere
 from langchain_openai import ChatOpenAI
@@ -9,7 +8,7 @@ from datetime import datetime
 from Logger import Logger
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
-
+current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
 try:
     config = st.secrets
 except:
@@ -38,6 +37,8 @@ class ChatBot:
         self.logger = Logger(user_id=user_id,
                              session_id=session_id,
                              log_file_path=self.log_file_path)
+        
+        self.logger.log(user_input=prompts, chat_output=None, current_time=current_time)
         messages = self.logger.get_log() # []
         self.messages = messages[user_id][session_id]
 
