@@ -50,14 +50,14 @@ class ChatBot:
         선택된 모드에 따라 언어 모델을 초기화합니다.
         """
         if self.mode == 'cohere':
-            self.model = 'command-r-plus'
+            model = 'command-r-plus'
             api_key = cfg['cohere_api_key']
-            self.llm = ChatCohere(cohere_api_key=api_key, model=self.model)            
+            self.llm = ChatCohere(cohere_api_key=api_key, model=model)            
         
         elif self.mode == 'chatgpt': 
-            self.model = 'gpt-4o'
+            model = 'gpt-4o'
             api_key = cfg['openai_api_key']
-            self.llm = ChatOpenAI(api_key=api_key, model=self.model)
+            self.llm = ChatOpenAI(api_key=api_key, model=model)
 
         else:
             raise KeyError('\'mode\' should be either "chatgpt" or "cohere"')
@@ -95,7 +95,7 @@ class ChatBot:
         elif self.mode=='chatgpt':
             prompt = '\n'.join(self.get_chat_history()) + user_input
             prompt = prompt + f"\n{self.system_message.replace('{time}', current_time)}"
-            response = self.llm.predict(prompt).get('choices', [{}])[0].get("text", "").strip()
+            response = self.llm.invoke(prompt).content
 
 
         self.logger.log(user_input=user_input,
