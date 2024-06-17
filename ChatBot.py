@@ -38,9 +38,8 @@ class ChatBot:
                              session_id=session_id,
                              log_file_path=self.log_file_path)
         
-        self.logger.log(user_input=prompts, chat_output=None, current_time=current_time)
-        messages = self.logger.get_log() # []
-        self.messages = messages[user_id][session_id]
+        self.logger.log(user_input=prompts, chat_output="", current_time=current_time)
+        self.messages = self.logger.get_formatted_log()
 
         self.system_message = SystemMessage(content="System : current date and time is {time}")
         self.messages.append(self.system_message)
@@ -67,14 +66,7 @@ class ChatBot:
         Get saved logs from json file.
         :return:
         '''
-        history = self.logger.get_log()
-        chat_history = []
-        if self.session_id in history:
-            session_hist = [self.session_id]
-            for user, chatbot, _ in session_hist:
-                chat_history.append(user)
-                chat_history.append(chatbot)
-        return chat_history
+        return self.logger.get_formatted_log()
 
     def chat(self, user_input):
         '''

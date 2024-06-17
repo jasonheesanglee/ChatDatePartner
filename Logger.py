@@ -74,6 +74,21 @@ class Logger:
         except Exception as e:
             print(f"Error logging message: {e}")
 
+    def get_formatted_log(self):
+        '''
+        Retrieve and convert the logged messages to the correct format.
+        :return: list of messages in correct format
+        '''
+        logs = self.get_log()
+        formatted_logs = []
+        for entry in logs.get(self.user_id, {}).get(self.session_id, []):
+            if entry['type'] == 'human':
+                formatted_logs.append(HumanMessage(content=entry['content']))
+            elif entry['type'] == 'ai':
+                formatted_logs.append(AIMessage(content=entry['content']))
+            elif entry['type'] == 'system':
+                formatted_logs.append(SystemMessage(content=entry['content']))
+        return formatted_logs
 # if __name__ == "__main__":
 #     current_time = str(datetime.now(tz=pytz.timezone('Asia/Seoul')))
 #     logger = Logger(user_id='temp_user', session_id='temp_session')
