@@ -95,7 +95,7 @@ class ChatBot:
         elif self.mode=='chatgpt':
             prompt = '\n'.join(self.get_chat_history()) + user_input
             prompt = prompt + f"\n{self.system_message.replace('{time}', current_time)}"
-            response = self.llm.invoke(prompt).content
+            response = self.llm.chat(prompt).content
 
 
         self.logger.log(user_input=user_input,
