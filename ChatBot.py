@@ -77,7 +77,7 @@ class ChatBot:
                 chat_history.append(chatbot)
         return chat_history
 
-    def chat(self, user_input):  ## Cohere
+    def chat(self, user_input):
         '''
         Chat a user with given input using Cohere Api.
         :param user_input: user chat to chatbot -> str
@@ -95,7 +95,7 @@ class ChatBot:
         elif self.mode=='chatgpt':
             prompt = '\n'.join(self.get_chat_history()) + user_input
             prompt = prompt + f"\n{self.system_message.replace('{time}', current_time)}"
-            response = self.llm.invoke(message=prompt)['content']
+            response = self.llm.predict(prompt).get('choices', [{}])[0].get("text", "").strip()
 
 
         self.logger.log(user_input=user_input,
