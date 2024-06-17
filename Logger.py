@@ -25,7 +25,7 @@ class Logger:
         try:
             with open(self.log_file_path, 'r', encoding='utf-8') as f:
                 logs = json.load(f)
-        except (json.JSONDecodeError, TypeError):
+        except (json.JSONDecodeError, TypeError, FileNotFoundError):
             logs = base_template
         return logs
 
@@ -39,9 +39,9 @@ class Logger:
         :return: list of chat history -> list
         '''
         msg = [
-                    HumanMessage(user_input),
-                    AIMessage(chat_output),
-                    SystemMessage(f'Current Time : {current_time}')
+            {"type": "human", "content": user_input},
+            {"type": "ai", "content": chat_output},
+            {"type": "system", "content": f'Current Time : {current_time}'}
                 ]
         return msg
 
