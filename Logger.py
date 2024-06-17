@@ -39,9 +39,9 @@ class Logger:
         :return: list of chat history -> list
         '''
         msg = [
-                    HumanMessage(content=user_input),
-                    AIMessage(content=chat_output),
-                    SystemMessage(content=f'Current Time : {current_time}')
+                    HumanMessage(user_input),
+                    AIMessage(chat_output),
+                    SystemMessage(f'Current Time : {current_time}')
                 ]
         return msg
 
