@@ -41,7 +41,7 @@ class ChatBot:
         if self.user_id in history:
             if self.session_id in history[self.user_id]:
                 session_hist = history[self.user_id][self.session_id]
-                yield session_hist
+                print(session_hist)
                 for user, chatbot, _ in session_hist:
                     chat_history.append(user)
                     chat_history.append(chatbot)
