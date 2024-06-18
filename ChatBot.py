@@ -42,10 +42,10 @@ class ChatBot:
             if self.session_id in history[self.user_id]:
                 session_hist = history[self.user_id][self.session_id]
                 print(session_hist)
-                for user, chatbot, time_log in session_hist:
-                    chat_history.append(user)
-                    chat_history.append(chatbot)
-                    chat_history.append(time_log)
+                for entry in session_hist:
+                    chat_history.append(entry[0])
+                    chat_history.append(entry[1])
+                    chat_history.append(entry[2])
         return chat_history
 
     def chat(self, user_input):  ## Cohere
