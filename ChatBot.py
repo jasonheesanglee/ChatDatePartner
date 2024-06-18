@@ -99,18 +99,18 @@ class ChatBot:
                         )
         return response
     
-if __name__ == "__main__":
-    user_name = "user"
-    partner_name = "partner"
-    domain = "domain"
-    session_id = "session_id"
-    prompts = "Your prompts here"
-    log_file_path = None
-    mode = "chatgpt"
+# if __name__ == "__main__":
+#     user_name = "user"
+#     partner_name = "partner"
+#     domain = "domain"
+#     session_id = "session_id"
+#     prompts = "Your prompts here"
+#     log_file_path = None
+#     mode = "chatgpt"
 
-    chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
-                      session_id=session_id, prompts=prompts, log_file_path=log_file_path, mode=mode)
-    prompt = "Hello, how are you?"
-    response = chatbot.chat(prompt)
-    print(response)
+#     chatbot = ChatBot(user_name=user_name, partner_name=partner_name, domain=domain,
+#                       session_id=session_id, prompts=prompts, log_file_path=log_file_path, mode=mode)
+#     prompt = "Hello, how are you?"
+#     response = chatbot.chat(prompt)
+#     print(response)
 
