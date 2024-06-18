@@ -66,7 +66,7 @@ class Logger:
         log_msg = self.log_message(user_input, chat_output, current_time)
         if self.user_id in logs.keys():
             if self.session_id in logs[self.user_id]:
-                logs[self.user_id][self.session_id].extend(log_msg)
+                logs[self.user_id][self.session_id].append(log_msg)
             else:
                 logs[self.user_id][self.session_id] = log_msg
 
