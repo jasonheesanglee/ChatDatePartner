@@ -63,15 +63,15 @@ class Logger:
         :return: None
         '''
         logs = self.get_log()
-        log_message = self.log_message(user_input,chat_output,current_time)
+        log_msg = self.log_message(user_input, chat_output, current_time)
         if self.user_id in logs.keys():
             if self.session_id in logs[self.user_id]:
-                logs[self.user_id][self.session_id].append(log_message)
+                logs[self.user_id][self.session_id].extend(log_msg)
             else:
-                logs[self.user_id][self.session_id] = log_message
+                logs[self.user_id][self.session_id] = log_msg
 
         else:
-            logs[self.user_id] = {self.session_id : [log_message]}
+            logs[self.user_id] = {self.session_id : [log_msg]}
 
         with open(self.log_file_path, 'w', encoding='utf-8') as f:
             json.dump(logs, f, ensure_ascii=False, indent=4)
