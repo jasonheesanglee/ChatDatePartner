@@ -68,7 +68,7 @@ if user_name and partner_name and apply_button:
 
 if 'chatbot' in st.session_state:
     messages = st.container(height=800)
-
+    
     if st.session_state.chat_history != []:
         for msg in st.session_state.chat_history:
             messages.chat_message(msg['name']).write(msg['text'])

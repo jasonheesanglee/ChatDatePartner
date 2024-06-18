@@ -37,11 +37,12 @@ class ChatBot:
         '''
         history = self.logger.get_log()
         chat_history = []
-        if self.session_id in history:
-            session_hist = [self.session_id]
-            for user, chatbot, _ in session_hist:
-                chat_history.append(user)
-                chat_history.append(chatbot)
+        if self.user_id in history:
+            if self.session_id in history[self.user_id]:
+                session_hist = [self.session_id]
+                for user, chatbot, _ in session_hist:
+                    chat_history.append(user)
+                    chat_history.append(chatbot)
         return chat_history
 
     def chat(self, user_input):  ## Cohere
